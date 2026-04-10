@@ -42,6 +42,7 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
+    scroll-behavior: smooth;
   }
 }
 
@@ -89,5 +90,111 @@
   
   .lesgopro-focus {
     box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.12);
+  }
+}
+
+@keyframes hero-fade-slide {
+  0% {
+    opacity: 0;
+    transform: scale(1.04) translateX(12px);
+  }
+  8% {
+    opacity: 1;
+    transform: scale(1.02) translateX(0);
+  }
+  28% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+  36% {
+    opacity: 0;
+    transform: scale(1.03) translateX(-10px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.03) translateX(-10px);
+  }
+}
+
+@keyframes hero-reveal-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hint-pulse {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes hint-wheel {
+  0% {
+    opacity: 0;
+    transform: translateY(-7px);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+}
+
+@layer components {
+  .hero-slide {
+    animation: hero-fade-slide 18s ease-in-out infinite;
+    will-change: opacity, transform;
+  }
+
+  .hero-reveal {
+    opacity: 0;
+    animation: hero-reveal-up 0.8s ease-out forwards;
+  }
+
+  .hero-reveal-delay-1 {
+    animation-delay: 0.15s;
+  }
+
+  .hero-reveal-delay-2 {
+    animation-delay: 0.3s;
+  }
+
+  .hero-reveal-delay-3 {
+    animation-delay: 0.45s;
+  }
+
+  .scroll-hint-pulse {
+    animation: hint-pulse 2.3s ease-out infinite;
+  }
+
+  .scroll-hint-wheel {
+    animation: hint-wheel 1.4s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide,
+  .hero-reveal,
+  .scroll-hint-pulse,
+  .scroll-hint-wheel {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 interface SectionShellProps {
+  id?: string
   children: ReactNode
   className?: string
   contentClassName?: string
@@ -9,6 +10,7 @@ interface SectionShellProps {
 }
 
 export function SectionShell({
+  id,
   children,
   className,
   contentClassName,
@@ -16,6 +18,7 @@ export function SectionShell({
 }: SectionShellProps) {
   return (
     <section
+      id={id}
       className={cn(
         "px-4 py-12 sm:px-6 lg:px-8",
         muted && "bg-cream-surface",
