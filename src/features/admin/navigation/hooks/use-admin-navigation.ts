@@ -10,9 +10,9 @@ import {
   ShieldCheck,
   Users2,
 } from "lucide-react"
-import type { ManagementNavigationItem } from "./workspace-management-types"
+import type { AdminNavigationItem } from "../admin-navigation-types"
 
-export function useManagementNavigation(): ManagementNavigationItem[] {
+export function useAdminNavigation(): AdminNavigationItem[] {
   return [
     {
       label: "Dashboard",
@@ -28,9 +28,9 @@ export function useManagementNavigation(): ManagementNavigationItem[] {
     },
     {
       label: "School Year",
-      href: "/admin#school-year",
+      href: "/admin/school-years",
       icon: GraduationCap,
-      match: (pathname: string) => pathname === "/admin",
+      match: (pathname: string) => pathname === "/admin/school-years",
     },
     {
       label: "Officers",
@@ -67,12 +67,6 @@ export function useManagementNavigation(): ManagementNavigationItem[] {
       href: "/",
       icon: Globe2,
       match: () => false,
-    },
-    {
-      label: "Enrollment",
-      href: "/admin#school-year",
-      icon: Users2,
-      match: (pathname: string) => pathname === "/admin",
     },
   ]
 }

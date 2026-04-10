@@ -10,17 +10,17 @@ import {
   ShieldCheck,
   Users2,
 } from "lucide-react"
-import type { ManagementDashboardData } from "./workspace-management-types"
+import type { AdminDashboardData } from "../admin-dashboard-types"
 
-export function useManagementDashboard(): ManagementDashboardData {
-  const analyticsCards: ManagementDashboardData["analyticsCards"] = [
+export function useAdminDashboard(): AdminDashboardData {
+  const analyticsCards: AdminDashboardData["analyticsCards"] = [
     {
       label: "Active School Year",
       value: "1",
       detail: "One current school year should drive the public enrollment stat.",
       icon: GraduationCap,
       badge: "Current",
-      tone: "lead" as const,
+      tone: "lead",
     },
     {
       label: "Leadership Groups",
@@ -28,7 +28,7 @@ export function useManagementDashboard(): ManagementDashboardData {
       detail: "Officer positions and officer records stay dynamic and reorderable.",
       icon: ShieldCheck,
       badge: "Dynamic",
-      tone: "officer" as const,
+      tone: "officer",
     },
     {
       label: "Published Collections",
@@ -36,7 +36,7 @@ export function useManagementDashboard(): ManagementDashboardData {
       detail: "Programs, projects, events, gallery, and socials can all be published independently.",
       icon: FolderKanban,
       badge: "Ready",
-      tone: "active" as const,
+      tone: "active",
     },
     {
       label: "Media-Ready Areas",
@@ -44,11 +44,11 @@ export function useManagementDashboard(): ManagementDashboardData {
       detail: "Links, thumbnails, videos, and galleries are already modeled in the backend.",
       icon: ImagePlay,
       badge: "Flexible",
-      tone: "lead" as const,
+      tone: "lead",
     },
   ]
 
-  const collectionCards: ManagementDashboardData["collectionCards"] = [
+  const collectionCards: AdminDashboardData["collectionCards"] = [
     {
       id: "school-year",
       title: "School Year And Enrollment",
@@ -91,7 +91,7 @@ export function useManagementDashboard(): ManagementDashboardData {
     },
   ]
 
-  const operationsTimeline: ManagementDashboardData["operationsTimeline"] = [
+  const operationsTimeline: AdminDashboardData["operationsTimeline"] = [
     {
       title: "Refresh school-year analytics",
       description: "Update the current school year and save the latest IT student count.",
@@ -109,7 +109,7 @@ export function useManagementDashboard(): ManagementDashboardData {
     },
   ]
 
-  const restResources: ManagementDashboardData["restResources"] = [
+  const restResources: AdminDashboardData["restResources"] = [
     "GET /api/content",
     "GET /api/admin/school-years",
     "POST /api/admin/school-years",
@@ -121,7 +121,7 @@ export function useManagementDashboard(): ManagementDashboardData {
     "DELETE /api/admin/social-links/:id",
   ]
 
-  const spotlightCard: ManagementDashboardData["spotlightCard"] = {
+  const spotlightCard: AdminDashboardData["spotlightCard"] = {
     badge: "Management",
     title: "Traditional control panel",
     description:

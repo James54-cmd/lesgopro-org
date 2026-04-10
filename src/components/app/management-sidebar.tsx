@@ -3,12 +3,12 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { BrandMark } from "@/components/app/brand-mark"
-import { useManagementNavigation } from "@/features/workspace"
+import { useAdminNavigation } from "@/features/admin/navigation/hooks/use-admin-navigation"
 import { cn } from "@/lib/utils"
 
 export function ManagementSidebar() {
   const pathname = usePathname()
-  const managementNavigation = useManagementNavigation()
+  const managementNavigation = useAdminNavigation()
 
   return (
     <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-primary/10 bg-[linear-gradient(180deg,#fffdf9_0%,#f8f3eb_100%)] xl:flex xl:flex-col">

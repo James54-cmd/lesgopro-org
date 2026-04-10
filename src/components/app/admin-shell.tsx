@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { AdminLogoutButton } from "@/features/admin/auth"
+import { AdminLogoutButton } from "@/features/admin"
 import { ManagementSidebar } from "@/components/app/management-sidebar"
 
 type AdminShellProps = {

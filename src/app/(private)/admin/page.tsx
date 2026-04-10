@@ -1,4 +1,4 @@
-import { AdminOverview } from "@/features/workspace"
+import { AdminOverview } from "@/features/admin"
 
 export default function AdminPage() {
   return <AdminOverview />

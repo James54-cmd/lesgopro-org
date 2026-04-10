@@ -4,11 +4,11 @@ import { StatusBadge } from "@/components/app/status-badge"
 import { adminOverview } from "@/config/site"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { useManagementDashboard } from "@/features/workspace"
+import { useAdminDashboard } from "./dashboard/hooks/use-admin-dashboard"
 
 export function AdminOverview() {
   const { analyticsCards, collectionCards, operationsTimeline, restResources, spotlightCard } =
-    useManagementDashboard()
+    useAdminDashboard()
 
   return (
     <div className="space-y-8">
@@ -179,6 +179,34 @@ export function AdminOverview() {
             </div>
           </Card>
         </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-2">
+        <Card className="border-primary/10 bg-white p-6 shadow-card">
+          <p className="section-label">Management Pages</p>
+          <h3 className="mt-3 type-h3 text-ink-900">First CRUD route is ready</h3>
+          <p className="mt-3 text-sm leading-relaxed text-ink-700">
+            School Year management now lives on its own page route instead of being embedded inside
+            the dashboard. The next pages can follow the same pattern.
+          </p>
+          <div className="mt-5">
+            <Button asChild size="lg">
+              <Link href="/admin/school-years">
+                Open School Year CRUD
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </Card>
+
+        <Card className="border-primary/10 bg-white p-6 shadow-card">
+          <p className="section-label">Route Direction</p>
+          <h3 className="mt-3 type-h3 text-ink-900">Traditional page-based management</h3>
+          <p className="mt-3 text-sm leading-relaxed text-ink-700">
+            The dashboard stays focused on analytics and oversight, while each collection gets its
+            own dedicated route for tables, forms, and operational workflows.
+          </p>
+        </Card>
       </section>
     </div>
   )
