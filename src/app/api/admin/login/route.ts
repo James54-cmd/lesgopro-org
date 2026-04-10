@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server"
+import {
+  adminAccessTokenCookieName,
+  adminRefreshTokenCookieName,
+} from "@/lib/api/admin-auth-session"
 import { isSupabaseAuthApiError, loginAdminUser } from "@/lib/api/supabase-auth-server"
 
 type LoginRequestBody = {
@@ -38,14 +42,32 @@ export async function POST(request: Request) {
 
   try {
     const session = await loginAdminUser(email, password)
-
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         message: "Admin login successful.",
-        session,
+        user: session.user,
+        expiresAt: session.expiresAt,
       },
       { status: 200 }
     )
+
+    response.cookies.set(adminAccessTokenCookieName, session.accessToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: session.expiresIn,
+    })
+
+    response.cookies.set(adminRefreshTokenCookieName, session.refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    })
+
+    return response
   } catch (error) {
     if (isSupabaseAuthApiError(error)) {
       return NextResponse.json({ error: error.message }, { status: error.status })

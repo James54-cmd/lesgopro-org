@@ -6,30 +6,23 @@ import { LoaderCircle, LockKeyhole } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { adminSessionStorageKey } from "../admin-auth-storage"
 
 type AdminLoginApiResponse = {
   message: string
-  session: {
-    accessToken: string
-    refreshToken: string
-    expiresIn: number
-    expiresAt: number
-    tokenType: string
-    user: {
-      id: string
-      email: string
-      firstName: string | null
-      lastName: string | null
-      slug: string | null
-      phoneNumber: string | null
-      role: "admin"
-      isActive: boolean
-      lastLoginAt: string | null
-      createdAt: string
-      updatedAt: string
-    }
+  user: {
+    id: string
+    email: string
+    firstName: string | null
+    lastName: string | null
+    slug: string | null
+    phoneNumber: string | null
+    role: "admin"
+    isActive: boolean
+    lastLoginAt: string | null
+    createdAt: string
+    updatedAt: string
   }
+  expiresAt: number
 }
 
 type AdminLoginApiError = {
@@ -69,9 +62,6 @@ export function AdminLoginForm() {
         return
       }
 
-      const successPayload = payload as AdminLoginApiResponse
-
-      window.localStorage.setItem(adminSessionStorageKey, JSON.stringify(successPayload.session))
       router.push("/admin")
       router.refresh()
     } catch {

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { BrandMark } from "@/components/app/brand-mark"
+import { AdminLogoutButton } from "@/features/admin/auth"
 import { adminNavigation } from "@/config/site"
 
 type AdminShellProps = {
@@ -14,17 +15,20 @@ export function AdminShell({ children }: AdminShellProps) {
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <BrandMark href="/" />
-            <nav className="flex flex-wrap gap-2">
-              {adminNavigation.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="rounded-full border border-primary/10 bg-white px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:border-primary/20 hover:text-primary"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <div className="flex flex-wrap items-center gap-2">
+              <nav className="flex flex-wrap gap-2">
+                {adminNavigation.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="rounded-full border border-primary/10 bg-white px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:border-primary/20 hover:text-primary"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+              <AdminLogoutButton />
+            </div>
           </div>
 
           <div className="max-w-3xl pb-2">
