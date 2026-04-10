@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google"
 import type { ReactNode } from "react"
+import { AIAssistantDock } from "@/components/layout/ai-assistant-dock"
 import { OpeningLoader } from "@/components/layout/opening-loader"
 import "@/styles/globals.css"
 
@@ -73,6 +74,7 @@ export default function RootLayout({
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen antialiased">
         <OpeningLoader />
+        <AIAssistantDock />
         {children}
       </body>
     </html>
