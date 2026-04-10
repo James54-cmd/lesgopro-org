@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import { LoaderCircle, LockKeyhole } from "lucide-react"
+import { useNavigationLoader } from "@/components/app"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -31,6 +32,7 @@ type AdminLoginApiError = {
 
 export function AdminLoginForm() {
   const router = useRouter()
+  const { startLoading } = useNavigationLoader()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -62,6 +64,7 @@ export function AdminLoginForm() {
         return
       }
 
+      startLoading()
       router.push("/admin")
       router.refresh()
     } catch {

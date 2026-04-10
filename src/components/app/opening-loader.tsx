@@ -9,7 +9,11 @@ const LOADER_EXIT_MS = 450
 
 type LoaderPhase = "visible" | "exit" | "hidden"
 
-export function OpeningLoader() {
+type OpeningLoaderProps = {
+  onHidden?: () => void
+}
+
+export function OpeningLoader({ onHidden }: OpeningLoaderProps) {
   const [phase, setPhase] = useState<LoaderPhase>("visible")
 
   useEffect(() => {
@@ -26,6 +30,14 @@ export function OpeningLoader() {
       window.clearTimeout(hideTimer)
     }
   }, [])
+
+  useEffect(() => {
+    if (phase !== "hidden") {
+      return
+    }
+
+    onHidden?.()
+  }, [onHidden, phase])
 
   if (phase === "hidden") {
     return null

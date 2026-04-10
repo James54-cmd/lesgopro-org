@@ -1,8 +1,6 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
 import { BrandMark } from "@/components/app/brand-mark"
 import { publicNavigation } from "@/config/site"
-import { Button } from "@/components/ui/button"
 
 export function SiteHeader() {
   return (
@@ -25,18 +23,6 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-
-        <Button
-          asChild
-          variant="secondary"
-          size="sm"
-          className="bg-secondary text-primary-dark hover:brightness-105"
-        >
-          <Link href="/admin/login">
-            Admin
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
       </div>
     </header>
   )

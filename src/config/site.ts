@@ -93,7 +93,6 @@ export const footerNavigation: NavigationLink[] = [
   { label: "Programs", href: "/#program-offers" },
   { label: "Events", href: "/#events" },
   { label: "Projects", href: "/#projects" },
-  { label: "Admin", href: "/admin/login" },
 ]
 
 export const adminNavigation: NavigationLink[] = [

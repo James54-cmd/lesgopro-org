@@ -1,7 +1,7 @@
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google"
 import type { ReactNode } from "react"
 import { siteMetadata } from "@/config/site"
-import { RootOverlays } from "@/components/app/root-overlays"
+import { NavigationLoaderProvider } from "@/components/app/navigation-loader-provider"
 import "@/styles/globals.css"
 
 const display = Cormorant_Garamond({
@@ -28,8 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen antialiased">
-        <RootOverlays />
-        {children}
+        <NavigationLoaderProvider>{children}</NavigationLoaderProvider>
       </body>
     </html>
   )

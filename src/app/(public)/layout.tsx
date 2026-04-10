@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { AIAssistantDock } from "@/features/assistant"
 import { SiteFooter, SiteHeader } from "@/components/navigation"
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
@@ -6,6 +7,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <main className="pt-16">{children}</main>
+      <AIAssistantDock />
       <SiteFooter />
     </div>
   )

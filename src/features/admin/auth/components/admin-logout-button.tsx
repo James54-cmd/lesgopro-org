@@ -3,10 +3,12 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { LoaderCircle, LogOut } from "lucide-react"
+import { useNavigationLoader } from "@/components/app"
 import { Button } from "@/components/ui/button"
 
 export function AdminLogoutButton() {
   const router = useRouter()
+  const { startLoading } = useNavigationLoader()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   async function handleLogout() {
@@ -17,6 +19,7 @@ export function AdminLogoutButton() {
         method: "POST",
       })
     } finally {
+      startLoading()
       router.push("/admin/login")
       router.refresh()
       setIsSubmitting(false)
