@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* LESGOPRO Brand Colors as CSS Variables */
+    --background: 40 33% 93%;        /* cream #F5F0E8 */
+    --foreground: 27 53% 7%;         /* ink-900 #1A1008 */
+    --card: 0 0% 100%;               /* white */
+    --card-foreground: 27 53% 7%;    /* ink-900 #1A1008 */
+    --popover: 0 0% 100%;            /* white */
+    --popover-foreground: 27 53% 7%; /* ink-900 #1A1008 */
+    
+    --primary: 0 68% 32%;            /* crimson #8B1A1A */
+    --primary-foreground: 40 33% 93%; /* cream #F5F0E8 */
+    
+    --secondary: 41 65% 48%;         /* gold #C9972A */
+    --secondary-foreground: 34 100% 24%; /* secondary-dark #7A5500 */
+    
+    --muted: 40 56% 98%;             /* cream-surface #FDFAF5 */
+    --muted-foreground: 28 14% 48%;  /* ink-400 #8B7A6A */
+    
+    --accent: 136 41% 30%;           /* laurel green #2D6A3F */
+    --accent-foreground: 141 34% 85%; /* accent-light #C8E6D0 */
+    
+    --destructive: 0 68% 32%;        /* crimson #8B1A1A */
+    --destructive-foreground: 40 33% 93%; /* cream #F5F0E8 */
+    
+    --border: 0 68% 32% / 0.12;      /* primary with 12% opacity */
+    --input: 0 68% 32% / 0.12;       /* primary with 12% opacity */
+    --ring: 0 68% 32%;               /* crimson #8B1A1A */
+    
+    --radius: 0.75rem;               /* 12px - LESGOPRO card radius */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* LESGOPRO Component Utilities */
+@layer components {
+  .section-label {
+    @apply text-[11px] font-medium tracking-[1.5px] uppercase text-primary;
+  }
+  
+  .lesgopro-shadow {
+    box-shadow: 0 1px 3px rgba(26, 16, 8, 0.06);
+  }
+  
+  .lesgopro-shadow-md {
+    box-shadow: 0 4px 16px rgba(26, 16, 8, 0.10);
+  }
+  
+  .lesgopro-shadow-lg {
+    box-shadow: 0 8px 32px rgba(26, 16, 8, 0.16);
+  }
+  
+  .lesgopro-focus {
+    box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.12);
+  }
+}

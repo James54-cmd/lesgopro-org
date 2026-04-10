@@ -1,0 +1,6 @@
+export { HeroSection } from "./hero-section"
+export { StatsSection } from "./stats-section"
+export { MembersSection } from "./members-section"
+export { EventsSection } from "./events-section"
+export { ProjectsSection } from "./projects-section"
+export { JoinCtaSection } from "./join-cta-section"
