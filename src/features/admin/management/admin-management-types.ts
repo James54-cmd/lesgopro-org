@@ -39,6 +39,8 @@ export type ManagementResourceColumn = {
   label: string
 }
 
+export type ManagementRecordTransformer = (record: Record<string, unknown>) => Record<string, unknown>
+
 export type ManagementResourceDefinition = {
   name: ManagementResourceName
   label: string
@@ -51,6 +53,9 @@ export type ManagementResourceDefinition = {
   emptyDescription: string
   columns: ManagementResourceColumn[]
   fields: ManagementResourceField[]
+  listSelect?: string
+  itemSelect?: string
+  transformRecord?: ManagementRecordTransformer
 }
 
 export type ManagementRecordValue = string | number | boolean | null

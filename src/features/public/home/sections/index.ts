@@ -1,7 +1,6 @@
 export { HeroSection } from "./hero-section"
 export { StatsSection } from "./stats-section"
 export { ProgramOffersSection } from "./program-offers-section"
-export { LeadershipSection } from "./leadership-section"
 export { EventsSection } from "./events-section"
 export { ProjectsSection } from "./projects-section"
 export { GallerySection } from "./gallery-section"

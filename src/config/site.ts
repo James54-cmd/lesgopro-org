@@ -83,7 +83,7 @@ export const siteMetadata: Metadata = {
 export const publicNavigation: NavigationLink[] = [
   { label: "Overview", href: "/#overview" },
   { label: "Programs", href: "/#program-offers" },
-  { label: "Leadership", href: "/#leadership" },
+  { label: "Leadership", href: "/leadership" },
   { label: "Events", href: "/#events" },
   { label: "Projects", href: "/#projects" },
 ]
@@ -91,6 +91,7 @@ export const publicNavigation: NavigationLink[] = [
 export const footerNavigation: NavigationLink[] = [
   { label: "Public Home", href: "/" },
   { label: "Programs", href: "/#program-offers" },
+  { label: "Leadership", href: "/leadership" },
   { label: "Events", href: "/#events" },
   { label: "Projects", href: "/#projects" },
 ]

@@ -184,15 +184,21 @@ export function AdminOverview() {
       <section className="grid gap-4 md:grid-cols-2">
         <Card className="border-primary/10 bg-white p-6 shadow-card">
           <p className="section-label">Management Pages</p>
-          <h3 className="mt-3 type-h3 text-ink-900">First CRUD route is ready</h3>
+          <h3 className="mt-3 type-h3 text-ink-900">Dedicated CRUD pages are taking shape</h3>
           <p className="mt-3 text-sm leading-relaxed text-ink-700">
-            School Year management now lives on its own page route instead of being embedded inside
-            the dashboard. The next pages can follow the same pattern.
+            School Year and Officer management now live on their own page routes instead of being
+            embedded inside the dashboard. The next collections can follow the same pattern.
           </p>
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Button asChild size="lg">
               <Link href="/admin/school-years">
                 Open School Year CRUD
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/admin/officers">
+                Open Officer CRUD
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>

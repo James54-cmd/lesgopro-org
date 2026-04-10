@@ -34,9 +34,9 @@ export function useAdminNavigation(): AdminNavigationItem[] {
     },
     {
       label: "Officers",
-      href: "/admin#leadership",
+      href: "/admin/officers",
       icon: ShieldCheck,
-      match: (pathname: string) => pathname === "/admin",
+      match: (pathname: string) => pathname === "/admin/officers",
     },
     {
       label: "Programs",

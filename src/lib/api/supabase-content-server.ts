@@ -18,6 +18,9 @@ type ContentResourceConfig = {
   select: string
   order: string
   allowedFields: readonly string[]
+  listSelect?: string
+  itemSelect?: string
+  transformRecord?: (record: Record<string, unknown>) => Record<string, unknown>
 }
 
 type SupabaseErrorResponse = {
@@ -34,6 +37,34 @@ class SupabaseContentApiError extends Error {
     super(message)
     this.name = "SupabaseContentApiError"
     this.status = status
+  }
+}
+
+function flattenOfficerRecord(record: Record<string, unknown>) {
+  const schoolYear = record.school_year
+  const officerPosition = record.officer_position
+  const schoolYearRecord =
+    schoolYear && typeof schoolYear === "object" && !Array.isArray(schoolYear)
+      ? (schoolYear as Record<string, unknown>)
+      : null
+  const officerPositionRecord =
+    officerPosition && typeof officerPosition === "object" && !Array.isArray(officerPosition)
+      ? (officerPosition as Record<string, unknown>)
+      : null
+
+  const schoolYearLabel = typeof schoolYearRecord?.label === "string" ? schoolYearRecord.label : null
+
+  const officerPositionLabel =
+    typeof record.custom_position_name === "string" && record.custom_position_name.length > 0
+      ? record.custom_position_name
+      : typeof officerPositionRecord?.name === "string"
+        ? officerPositionRecord.name
+        : null
+
+  return {
+    ...record,
+    school_year_label: schoolYearLabel,
+    officer_position_label: officerPositionLabel,
   }
 }
 
@@ -61,6 +92,10 @@ const contentResourceConfigs: Record<ContentResourceName, ContentResourceConfig>
     table: "officers",
     select:
       "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
+    listSelect:
+      "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at,school_year:school_years(id,label,is_current),officer_position:officer_positions(id,name,slug,is_active)",
+    itemSelect:
+      "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at,school_year:school_years(id,label,is_current),officer_position:officer_positions(id,name,slug,is_active)",
     order: "sort_order.asc,last_name.asc,first_name.asc",
     allowedFields: [
       "school_year_id",
@@ -77,6 +112,7 @@ const contentResourceConfigs: Record<ContentResourceName, ContentResourceConfig>
       "sort_order",
       "is_active",
     ],
+    transformRecord: flattenOfficerRecord,
   },
   programs: {
     table: "programs",
@@ -246,16 +282,18 @@ export async function listAdminContent(resource: string) {
   const { supabaseUrl } = getSupabaseServerEnv()
   const url = new URL(`${supabaseUrl}/rest/v1/${config.table}`)
 
-  url.searchParams.set("select", config.select)
+  url.searchParams.set("select", config.listSelect || config.select)
   url.searchParams.set("order", config.order)
 
-  return fetchFromSupabase<Record<string, unknown>[]>(
+  const rows = await fetchFromSupabase<Record<string, unknown>[]>(
     url,
     {
       headers: getSupabaseHeaders("service"),
     },
     "Unable to list admin content."
   )
+
+  return config.transformRecord ? rows.map((row) => config.transformRecord?.(row) || row) : rows
 }
 
 export async function getAdminContentItem(resource: string, id: string) {
@@ -265,7 +303,7 @@ export async function getAdminContentItem(resource: string, id: string) {
   const { supabaseUrl } = getSupabaseServerEnv()
   const url = new URL(`${supabaseUrl}/rest/v1/${config.table}`)
 
-  url.searchParams.set("select", config.select)
+  url.searchParams.set("select", config.itemSelect || config.select)
   url.searchParams.set("id", `eq.${id}`)
 
   const rows = await fetchFromSupabase<Record<string, unknown>[]>(
@@ -276,7 +314,8 @@ export async function getAdminContentItem(resource: string, id: string) {
     "Unable to load the admin content item."
   )
 
-  return rows[0] || null
+  const record = rows[0] || null
+  return record && config.transformRecord ? config.transformRecord(record) : record
 }
 
 export async function createAdminContentItem(resource: string, payload: Record<string, unknown>) {
@@ -397,29 +436,23 @@ export async function getPublicSiteContent() {
     currentItEnrollment = enrollmentRows[0] || null
   }
 
-  const [
-    positions,
-    officers,
-    programs,
-    projects,
-    events,
-    galleryItems,
-    socialLinks,
-  ] = await Promise.all([
+  const [positions, officers, programs, projects, events, galleryItems, socialLinks] = await Promise.all([
     fetchPublicCollection("officer_positions", "id,name,slug,sort_order,is_active", [
       ["is_active", "eq.true"],
     ], "sort_order.asc,name.asc"),
-    fetchPublicCollection(
-      "officers",
-      "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
-      currentSchoolYearId
-        ? [
-            ["school_year_id", `eq.${currentSchoolYearId}`],
-            ["is_active", "eq.true"],
-          ]
-        : [["is_active", "eq.true"]],
-      "sort_order.asc,last_name.asc,first_name.asc"
-    ),
+    currentSchoolYearId
+      ? fetchPublicCollection(
+          "current_active_officers",
+          "id,school_year_id,school_year_label,school_year_is_current,officer_position_id,officer_position_name,officer_position_slug,custom_position_name,public_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
+          [],
+          "sort_order.asc,last_name.asc,first_name.asc"
+        )
+      : fetchPublicCollection(
+          "officers",
+          "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
+          [["is_active", "eq.true"]],
+          "sort_order.asc,last_name.asc,first_name.asc"
+        ),
     fetchPublicCollection(
       "programs",
       "id,title,slug,description,thumbnail_url,video_url,cta_url,sort_order,is_published,created_at,updated_at",
@@ -459,6 +492,8 @@ export async function getPublicSiteContent() {
   )
 
   const officersWithPositions = officers.map((officer) => {
+    const publicPositionName =
+      typeof officer.public_position_name === "string" ? officer.public_position_name : null
     const officerPositionId =
       typeof officer.officer_position_id === "string" ? officer.officer_position_id : null
 
@@ -469,8 +504,8 @@ export async function getPublicSiteContent() {
           ? officerPositionsById.get(officerPositionId)
           : null,
       position_name:
-        typeof officer.custom_position_name === "string" && officer.custom_position_name.length > 0
-          ? officer.custom_position_name
+        publicPositionName
+          ? publicPositionName
           : officerPositionId && officerPositionsById.has(officerPositionId)
             ? officerPositionsById.get(officerPositionId)?.name || null
             : null,

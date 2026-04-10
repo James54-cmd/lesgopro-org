@@ -66,32 +66,6 @@ export const homeContent: HomeContent = {
     { value: "25+", label: "Events Hosted" },
     { value: "6", label: "Years Strong" },
   ],
-  leadershipTeam: [
-    {
-      name: "Juan dela Cruz",
-      role: "President",
-      specialization: "Full-Stack",
-      status: "officer",
-    },
-    {
-      name: "Maria Santos",
-      role: "Vice President",
-      specialization: "Frontend",
-      status: "officer",
-    },
-    {
-      name: "Jose Garcia",
-      role: "Tech Lead",
-      specialization: "Backend",
-      status: "lead",
-    },
-    {
-      name: "Ana Rodriguez",
-      role: "Project Manager",
-      specialization: "DevOps",
-      status: "lead",
-    },
-  ],
   upcomingEvents: [
     {
       title: "DevFest MCC 2026",

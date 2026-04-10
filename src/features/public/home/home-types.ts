@@ -1,5 +1,3 @@
-export type LeaderStatus = "officer" | "lead" | "active" | "inactive"
-
 export type EventStatus = "open" | "closed" | "cancelled" | "full"
 
 export type ProjectStatus = "inDevelopment" | "live" | "beta"
@@ -29,13 +27,6 @@ export interface SectionCopy {
 export interface StatItem {
   value: string
   label: string
-}
-
-export interface LeaderProfile {
-  name: string
-  role: string
-  specialization: string
-  status: LeaderStatus
 }
 
 export interface EventItem {
@@ -87,7 +78,6 @@ export interface HomeContent {
   }
   programFooterNote: string
   organizationStats: StatItem[]
-  leadershipTeam: LeaderProfile[]
   upcomingEvents: EventItem[]
   featuredProjects: ProjectItem[]
   programOffers: ProgramOffer[]

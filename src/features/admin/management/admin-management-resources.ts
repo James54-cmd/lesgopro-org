@@ -1,5 +1,33 @@
 import type { ManagementResourceDefinition, ManagementResourceName } from "./admin-management-types"
 
+function flattenOfficerRecord(record: Record<string, unknown>) {
+  const schoolYear = record.school_year
+  const officerPosition = record.officer_position
+  const schoolYearRecord =
+    schoolYear && typeof schoolYear === "object" && !Array.isArray(schoolYear)
+      ? (schoolYear as Record<string, unknown>)
+      : null
+  const officerPositionRecord =
+    officerPosition && typeof officerPosition === "object" && !Array.isArray(officerPosition)
+      ? (officerPosition as Record<string, unknown>)
+      : null
+
+  const schoolYearLabel = typeof schoolYearRecord?.label === "string" ? schoolYearRecord.label : null
+
+  const officerPositionLabel =
+    typeof record.custom_position_name === "string" && record.custom_position_name.length > 0
+      ? record.custom_position_name
+      : typeof officerPositionRecord?.name === "string"
+        ? officerPositionRecord.name
+        : null
+
+  return {
+    ...record,
+    school_year_label: schoolYearLabel,
+    officer_position_label: officerPositionLabel,
+  }
+}
+
 export const managementResourceDefinitions: ManagementResourceDefinition[] = [
   {
     name: "school-years",
@@ -80,11 +108,16 @@ export const managementResourceDefinitions: ManagementResourceDefinition[] = [
     formTitle: "Officer details",
     emptyTitle: "No officers yet",
     emptyDescription: "Add the current management team and connect them to positions.",
+    listSelect:
+      "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at,school_year:school_years(id,label,is_current),officer_position:officer_positions(id,name,slug,is_active)",
+    itemSelect:
+      "id,school_year_id,officer_position_id,custom_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at,school_year:school_years(id,label,is_current),officer_position:officer_positions(id,name,slug,is_active)",
+    transformRecord: flattenOfficerRecord,
     columns: [
       { key: "first_name", label: "First name" },
       { key: "last_name", label: "Last name" },
-      { key: "school_year_id", label: "School year ID" },
-      { key: "officer_position_id", label: "Position ID" },
+      { key: "school_year_label", label: "School year" },
+      { key: "officer_position_label", label: "Position" },
     ],
     fields: [
       { name: "school_year_id", label: "School year ID", type: "text", required: true },

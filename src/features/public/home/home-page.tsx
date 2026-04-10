@@ -2,28 +2,22 @@ import {
   EventsSection,
   GallerySection,
   HeroSection,
-  LeadershipSection,
   ProgramOffersSection,
   ProjectsSection,
   StatsSection,
 } from "@/features/public/home/sections"
+import { LeadershipSection } from "@/features/public/leadership"
 
-const sections = [
-  HeroSection,
-  StatsSection,
-  ProgramOffersSection,
-  LeadershipSection,
-  EventsSection,
-  ProjectsSection,
-  GallerySection,
-]
-
-export function HomePage() {
+export async function HomePage() {
   return (
     <>
-      {sections.map((Section) => (
-        <Section key={Section.name} />
-      ))}
+      <HeroSection />
+      <StatsSection />
+      <ProgramOffersSection />
+      <LeadershipSection />
+      <EventsSection />
+      <ProjectsSection />
+      <GallerySection />
     </>
   )
 }

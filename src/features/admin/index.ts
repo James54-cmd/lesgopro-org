@@ -1,6 +1,7 @@
 export { AdminLoginPage } from "./auth/admin-login-page"
 export { AdminLogoutButton } from "./auth/components/admin-logout-button"
 export { AdminOverview } from "./admin-overview"
+export { OfficersManagementPage } from "./officers/officers-management-page"
 export { SchoolYearsManagementPage } from "./school-years/school-years-management-page"
 export { ManagementResourcePanel } from "./management/components/management-resource-panel"
 export { getManagementResourceDefinition, managementResourceDefinitions } from "./management/admin-management-resources"
