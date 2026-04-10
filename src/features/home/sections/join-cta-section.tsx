@@ -6,10 +6,10 @@ export function JoinCtaSection() {
     <section className="bg-primary px-4 py-16 text-center sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <Award className="mx-auto mb-4 h-12 w-12 text-secondary" />
-        <h2 className="mb-4 text-3xl font-medium tracking-tight text-cream">
+        <h2 className="type-h1 mb-4 text-cream">
           Ready to Level Up Your Skills?
         </h2>
-        <p className="mx-auto mb-8 max-w-2xl text-[15px] leading-relaxed text-cream/70">
+        <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-cream/70">
           Join LESGOPRO and be part of a vibrant community that&apos;s passionate
           about technology, learning, and building the future together.
         </p>

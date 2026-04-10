@@ -40,15 +40,15 @@ export function EventCard({
   return (
     <Card className={cn("rounded-xl border-primary/10 overflow-hidden", className)}>
       <div className="bg-primary px-4 py-3">
-        <p className="text-secondary text-[11px] font-medium mb-1">
+        <p className="mb-1 text-xs font-medium text-secondary">
           {date} · {time}
         </p>
-        <p className="text-cream text-[15px] font-medium">{title}</p>
+        <p className="text-base font-medium text-cream">{title}</p>
       </div>
       <div className="px-4 py-3">
         <p className="text-sm text-ink-700 leading-relaxed">{description}</p>
       </div>
-      <div className="px-4 py-2.5 border-t border-primary/8 flex justify-between items-center">
+      <div className="flex items-center justify-between border-t border-primary/8 px-4 py-2">
         <div className="flex gap-2">
           <StatusBadge variant="officer" className="bg-primary/10 text-primary">
             {type}

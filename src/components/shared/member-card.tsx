@@ -29,8 +29,8 @@ export function MemberCard({
     .slice(0, 2)
 
   return (
-    <Card className={cn("border-primary/10 p-4 flex items-center gap-3", className)}>
-      <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-cream text-sm font-medium flex-shrink-0">
+    <Card className={cn("flex items-center gap-3 border-primary/10 p-4", className)}>
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-medium text-cream">
         {avatar ? (
           <Image
             src={avatar}
@@ -45,7 +45,7 @@ export function MemberCard({
       </div>
       <div className="flex-1">
         <p className="text-sm font-medium text-ink-900">{name}</p>
-        <p className="text-xs text-ink-400 mt-0.5">
+        <p className="mt-1 text-xs text-ink-400">
           {role}
           {specialization && ` · ${specialization}`}
         </p>

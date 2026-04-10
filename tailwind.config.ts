@@ -73,7 +73,8 @@ const config: Config = {
         focus: "0 0 0 3px rgba(139, 26, 26, 0.12)",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "ui-sans-serif", "sans-serif"],
+        display: ["var(--font-display)", "ui-serif", "serif"],
       },
       keyframes: {
         "accordion-down": {

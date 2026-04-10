@@ -23,6 +23,14 @@ export interface Project {
   status: "In Development" | "Live" | "Beta"
 }
 
+export interface GalleryItem {
+  title: string
+  caption: string
+  imageUrl: string
+  alt: string
+  tag: string
+}
+
 export const organizationStats = [
   { value: "120+", label: "Active Members" },
   { value: "45", label: "Projects Built" },
@@ -112,5 +120,48 @@ export const featuredProjects: Project[] = [
       "Automated code review tool for educational projects using AI workflows.",
     tech: "Python, FastAPI, OpenAI API",
     status: "Beta",
+  },
+]
+
+export const galleryItems: GalleryItem[] = [
+  {
+    title: "DevFest Main Stage",
+    caption: "Opening ceremony and keynote at MCC auditorium.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80",
+    alt: "Students gathered for a technology event",
+    tag: "Event",
+  },
+  {
+    title: "Workshop Collaboration",
+    caption: "Frontend workshop with peer programming sessions.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80",
+    alt: "Students collaborating in a classroom",
+    tag: "Workshop",
+  },
+  {
+    title: "Project Demo Day",
+    caption: "Teams presenting capstone and club projects.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    alt: "Students presenting a project",
+    tag: "Projects",
+  },
+  {
+    title: "Community Mentoring",
+    caption: "Officer mentoring session for new members.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+    alt: "Small group mentoring session",
+    tag: "Community",
+  },
+  {
+    title: "Hackathon Night",
+    caption: "Late-night building and iteration with teams.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Developers working on laptops at night",
+    tag: "Hackathon",
   },
 ]

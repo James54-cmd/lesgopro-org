@@ -1,17 +1,30 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google"
 import type { ReactNode } from "react"
 import "@/styles/globals.css"
 
-const inter = Inter({ 
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-display",
+  weight: ["500", "600", "700"],
+  display: "swap",
+})
+
+const body = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
   display: "swap",
 })
 
 export const metadata: Metadata = {
   title: "LESGOPRO - Learner's Group of Programmers",
   description: "A community of passionate developers at Mandaue City College building skills and creating real-world impact.",
+  icons: {
+    icon: "/brand/lesgopro_logo.png",
+    shortcut: "/brand/lesgopro_logo.png",
+    apple: "/brand/lesgopro_logo.png",
+  },
   keywords: ["programming", "developers", "community", "mandaue city college", "students", "technology"],
   authors: [{ name: "LESGOPRO" }],
   creator: "LESGOPRO - Mandaue City College",
@@ -56,7 +69,7 @@ export default function RootLayout({
   children: ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen antialiased">
         {children}
       </body>

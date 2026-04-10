@@ -1,15 +1,23 @@
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 export function Navbar() {
   return (
-    <nav className="flex h-[60px] items-center justify-between border-b-[3px] border-secondary bg-primary px-4 sm:px-6 lg:px-8">
+    <nav className="flex h-16 items-center justify-between border-b-4 border-secondary bg-primary px-4 sm:px-6 lg:px-8">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-primary-dark text-xs font-medium">
-          LGP
-        </div>
+        <Image
+          src="/brand/lesgopro_logo.png"
+          alt="LESGOPRO logo"
+          width={40}
+          height={40}
+          className="h-10 w-10 rounded-full border border-secondary/40 object-cover"
+          priority
+        />
         <div>
-          <p className="text-cream text-base font-medium">LESGOPRO</p>
-          <p className="text-secondary text-[11px]">Mandaue City College</p>
+          <p className="font-display text-xl font-semibold leading-none tracking-tight text-cream">
+            LESGOPRO
+          </p>
+          <p className="text-secondary text-xs">Mandaue City College</p>
         </div>
       </div>
       <Button 

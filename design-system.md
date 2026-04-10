@@ -5,6 +5,55 @@ You are building a **school organization web app** for LESGOPRO with a **collegi
 
 ---
 
+## Final UI Brief (Completed Template)
+
+You are building a school organization web app with a collegiate, authoritative, and community-driven visual identity.
+
+## Color Palette
+- Primary: `#8B1A1A` — used for main actions, key UI elements
+- Secondary: `#C9972A` — used for supporting elements, secondary buttons
+- Background: `#F5F0E8` — main canvas color
+- Surface: `#FFFFFF` — cards, modals, elevated elements
+- Text Primary: `#1A1008` — headings, body copy
+- Text Secondary: `#5A4A38` — captions, helper text, placeholders
+- Border: `rgba(139,26,26,0.12)` — dividers, input outlines
+- Success: `#2D6A3F`
+- Warning: `#C9972A`
+- Error: `#8B1A1A`
+
+## Typography
+- Font Family: `Inter` (Google Fonts)
+- Headings: bold-ish medium, tracking tight
+- Body: regular weight
+- Size Scale: 12 / 14 / 16 / 20 / 24 / 32 / 40 / 48px
+
+## Spacing Scale
+Use a 4px base unit. Common values: 4, 8, 12, 16, 24, 32, 48, 64px.
+
+## Border Radius
+- Small (inputs, chips): 6px
+- Medium (cards, buttons): 12px
+- Large (modals, containers): 16px
+- Full (avatars, pills): 9999px
+
+## Shadows
+- Subtle: `0 1px 3px rgba(26, 16, 8, 0.06)`
+- Medium: `0 4px 16px rgba(26, 16, 8, 0.10)`
+- Strong: `0 8px 32px rgba(26, 16, 8, 0.16)`
+
+## Component Patterns
+- Buttons: 40px default height (`h-10`), 48px large (`h-12`), horizontal padding from spacing scale (`px-4` / `px-6`), primary hover shifts to `primary-light`, outlines use primary border and subtle tinted hover.
+- Inputs: 40px min height, 12-16px horizontal padding (`px-3` or `px-4`), cream-tinted surface, primary border focus + ring (`focus:ring-primary/10`).
+- Cards: white surface, `rounded-xl`, `border-primary/10`, 16-24px padding (`p-4` / `p-6`), subtle shadow.
+
+## Rules
+1. Never introduce colors outside this palette.
+2. Always use the spacing scale, no arbitrary spacing values.
+3. Maintain consistent border radius per element type.
+4. When in doubt, add more whitespace.
+
+---
+
 ## Color Palette
 
 | Token | Hex | Usage |

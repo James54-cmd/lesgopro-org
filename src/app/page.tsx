@@ -2,6 +2,7 @@ import { Footer } from "@/components/layout/footer"
 import { Navbar } from "@/components/layout/navbar"
 import {
   EventsSection,
+  GallerySection,
   HeroSection,
   JoinCtaSection,
   MembersSection,
@@ -18,6 +19,7 @@ export default function HomePage() {
       <MembersSection />
       <EventsSection />
       <ProjectsSection />
+      <GallerySection />
       <JoinCtaSection />
       <Footer />
     </div>
