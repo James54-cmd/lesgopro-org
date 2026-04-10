@@ -1,5 +1,6 @@
 export { BrandMark } from "./brand-mark"
 export { AdminShell } from "./admin-shell"
+export { ManagementSidebar } from "./management-sidebar"
 export { NavigationLoaderProvider } from "./navigation-loader-provider"
 export { useNavigationLoader } from "./navigation-loader-provider"
 export { OpeningLoader } from "./opening-loader"

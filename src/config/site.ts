@@ -97,14 +97,14 @@ export const footerNavigation: NavigationLink[] = [
 
 export const adminNavigation: NavigationLink[] = [
   { label: "Public Site", href: "/" },
-  { label: "Admin Dashboard", href: "/admin" },
+  { label: "Management Dashboard", href: "/admin" },
 ]
 
 export const adminOverview = {
-  eyebrow: "Admin Workspace",
-  title: "Protected tools for managing the public site",
+  eyebrow: "Management Workspace",
+  title: "Protected tools for managing the organization site",
   description:
-    "Admin stays inside the protected route boundary, while the public site remains focused on students and other visitors.",
+    "Management stays inside the protected route boundary, while the public site remains focused on students and other visitors.",
   modules: [
     {
       id: "content-publishing",
@@ -124,7 +124,7 @@ export const adminOverview = {
       id: "site-operations",
       title: "Site Operations",
       description:
-        "Handle admin-only settings, workflow checks, and future protected management tools.",
+        "Handle management-only settings, workflow checks, and future protected operational tools.",
       state: "planned",
     },
   ],
