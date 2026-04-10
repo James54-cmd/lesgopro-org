@@ -54,7 +54,7 @@ export function GallerySection() {
                 />
               </div>
               <div className="space-y-2 p-4">
-                <StatusBadge variant="member">{item.tag}</StatusBadge>
+                <StatusBadge variant="neutral">{item.tag}</StatusBadge>
                 <h3 className="type-h3 text-ink-900">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-ink-700">{item.caption}</p>
               </div>

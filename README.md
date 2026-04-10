@@ -1,6 +1,6 @@
 # LESGOPRO - Learner's Group of Programmers
 
-A Next.js application for LESGOPRO at Mandaue City College with a clearer split between the public site, the protected private portal, and admin tools nested inside the private area.
+A Next.js application for LESGOPRO at Mandaue City College with a clear split between the public site and a protected admin area.
 
 ## Tech Stack
 
@@ -52,8 +52,8 @@ pnpm dev
 src/
 ├── app/
 │   ├── (public)/           # Open-facing pages for students and other visitors
-│   ├── (private)/          # Protected portal shell
-│   │   └── portal/admin/   # Admin stays inside the private boundary
+│   ├── (private)/          # Protected admin route group
+│   │   └── admin/          # Admin pages live behind the private boundary
 │   ├── api/                # Future Next.js route handlers
 │   └── layout.tsx          # Root fonts, metadata, loader, assistant
 ├── components/
@@ -63,7 +63,7 @@ src/
 ├── features/
 │   ├── assistant/          # AI assistant feature
 │   ├── public/home/        # Public homepage feature module
-│   └── workspace/          # Private portal and admin overview components
+│   └── workspace/          # Admin workspace components
 ├── hooks/                  # Shared hooks used by multiple features
 ├── lib/
 │   ├── api/                # Shared API clients and adapters

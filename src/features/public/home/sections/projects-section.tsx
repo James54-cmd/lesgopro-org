@@ -1,8 +1,5 @@
-import Link from "next/link"
-import { Code2 } from "lucide-react"
 import { SectionHeading } from "@/components/app/section-heading"
 import { SectionShell } from "@/components/app/section-shell"
-import { Button } from "@/components/ui/button"
 import { ProjectCard } from "@/features/public/home/components/project-card"
 import { homeContent } from "@/features/public/home/home-content"
 
@@ -22,15 +19,6 @@ export function ProjectsSection() {
         {featuredProjects.map((project) => (
           <ProjectCard key={project.title} project={project} />
         ))}
-      </div>
-
-      <div className="mt-8 text-center">
-        <Button asChild>
-          <Link href="/portal">
-            <Code2 className="h-4 w-4" />
-            Explore Member Projects
-          </Link>
-        </Button>
       </div>
     </SectionShell>
   )

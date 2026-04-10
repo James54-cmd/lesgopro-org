@@ -28,13 +28,13 @@ function resolveReply({ prompt }: AssistantTransportRequest) {
     normalized.includes("build") ||
     normalized.includes("app")
   ) {
-    return "Featured student work includes practical campus-focused builds such as event tools, portals, and software projects that reflect real-world development experience."
+    return "Featured student work includes practical campus-focused builds such as event tools, academic platforms, and software projects that reflect real-world development experience."
   }
 
   if (
     normalized.includes("community") ||
-    normalized.includes("member") ||
-    normalized.includes("join")
+    normalized.includes("student") ||
+    normalized.includes("leadership")
   ) {
     return "LESGOPRO is a student-led technology community at Mandaue City College centered on mentoring, collaboration, and helping learners grow through real projects."
   }
@@ -44,7 +44,7 @@ function resolveReply({ prompt }: AssistantTransportRequest) {
     normalized.includes("where") ||
     normalized.includes("find")
   ) {
-    return "You can explore the homepage sections for programs, events, projects, and members. If you want, ask me for a specific section and I can guide you there."
+    return "You can explore the homepage sections for programs, events, projects, leadership, and gallery highlights. If you want, ask me for a specific section and I can guide you there."
   }
 
   return "I’m ready to help with LESGOPRO information such as programs, events, projects, community details, and site navigation. Ask a more specific question and I can narrow it down."

@@ -1,30 +1,28 @@
 import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { StatusBadge } from "@/components/app/status-badge"
-import type { Member } from "@/features/public/home/home-types"
+import type { LeaderProfile } from "@/features/public/home/home-types"
 import { cn } from "@/lib/utils"
 
-const memberStatusLabel = {
+const leaderStatusLabel = {
   officer: "Officer",
   lead: "Lead",
   active: "Active",
-  member: "Member",
-  pending: "Pending",
   inactive: "Inactive",
 } as const
 
-interface MemberCardProps {
-  member: Member
+interface LeaderCardProps {
+  leader: LeaderProfile
   avatar?: string
   className?: string
 }
 
-export function MemberCard({
-  member,
+export function LeaderCard({
+  leader,
   avatar,
   className,
-}: MemberCardProps) {
-  const initials = member.name
+}: LeaderCardProps) {
+  const initials = leader.name
     .split(" ")
     .map((word) => word[0])
     .join("")
@@ -37,7 +35,7 @@ export function MemberCard({
         {avatar ? (
           <Image
             src={avatar}
-            alt={member.name}
+            alt={leader.name}
             width={44}
             height={44}
             className="h-full w-full rounded-full object-cover"
@@ -47,14 +45,14 @@ export function MemberCard({
         )}
       </div>
       <div className="flex-1">
-        <p className="text-sm font-medium text-ink-900">{member.name}</p>
+        <p className="text-sm font-medium text-ink-900">{leader.name}</p>
         <p className="mt-1 text-xs text-ink-400">
-          {member.role}
-          {member.specialization && ` · ${member.specialization}`}
+          {leader.role}
+          {leader.specialization && ` · ${leader.specialization}`}
         </p>
       </div>
-      <StatusBadge variant={member.status} className="ml-auto">
-        {memberStatusLabel[member.status]}
+      <StatusBadge variant={leader.status} className="ml-auto">
+        {leaderStatusLabel[leader.status]}
       </StatusBadge>
     </Card>
   )

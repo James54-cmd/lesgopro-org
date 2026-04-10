@@ -1,12 +1,4 @@
-import type { AccessLayer } from "@/config/site"
-
-export type MemberStatus =
-  | "officer"
-  | "lead"
-  | "active"
-  | "member"
-  | "pending"
-  | "inactive"
+export type LeaderStatus = "officer" | "lead" | "active" | "inactive"
 
 export type EventStatus = "open" | "closed" | "cancelled" | "full"
 
@@ -39,11 +31,11 @@ export interface StatItem {
   label: string
 }
 
-export interface Member {
+export interface LeaderProfile {
   name: string
   role: string
   specialization: string
-  status: MemberStatus
+  status: LeaderStatus
 }
 
 export interface EventItem {
@@ -88,24 +80,16 @@ export interface HomeContent {
   }
   sections: {
     programs: SectionCopy
-    members: SectionCopy
+    leadership: SectionCopy
     events: SectionCopy
     projects: SectionCopy
     gallery: SectionCopy
-    access: SectionCopy
-  }
-  cta: {
-    title: string
-    description: string
-    primaryLabel: string
-    secondaryLabel: string
   }
   programFooterNote: string
   organizationStats: StatItem[]
-  leadershipMembers: Member[]
+  leadershipTeam: LeaderProfile[]
   upcomingEvents: EventItem[]
   featuredProjects: ProjectItem[]
   programOffers: ProgramOffer[]
   galleryItems: GalleryItem[]
-  accessLayers: AccessLayer[]
 }

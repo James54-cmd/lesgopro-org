@@ -1,12 +1,12 @@
 # AGENTS.md
 
 ## Goal
-Keep the repo easy to navigate as it grows across public, private, and admin experiences.
+Keep the repo easy to navigate as it grows across the public site and the protected admin experience.
 
 ## Route Boundaries
 - `src/app/(public)` is the open-facing experience for students and other visitors.
-- `src/app/(private)` is the protected workspace shell.
-- Admin stays inside the private area at `src/app/(private)/portal/admin`.
+- `src/app/(private)` is the protected admin route group.
+- Admin pages live at `src/app/(private)/admin`.
 - Future route handlers belong in `src/app/api/**/route.ts`.
 
 ## Folder Ownership

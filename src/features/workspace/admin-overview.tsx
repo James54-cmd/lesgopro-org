@@ -1,24 +1,14 @@
 import Link from "next/link"
-import {
-  CalendarDays,
-  FileText,
-  FolderKanban,
-  LayoutDashboard,
-  ShieldCheck,
-  UsersRound,
-} from "lucide-react"
+import { CalendarDays, FileText, ShieldCheck } from "lucide-react"
 import { StatusBadge } from "@/components/app/status-badge"
-import { privateAreaOverview, type PrivateWorkspaceArea } from "@/config/site"
+import { adminOverview } from "@/config/site"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
 const moduleIcons = {
-  "member-home": LayoutDashboard,
-  "project-hub": FolderKanban,
-  "event-calendar": CalendarDays,
   "content-publishing": FileText,
-  "member-approvals": UsersRound,
-  "operations-desk": ShieldCheck,
+  "events-planning": CalendarDays,
+  "site-operations": ShieldCheck,
 } as const
 
 const moduleStateMeta = {
@@ -32,32 +22,21 @@ const moduleStateMeta = {
   },
   planned: {
     label: "Planned",
-    variant: "member",
+    variant: "neutral",
   },
 } as const
 
-type PrivateAreaOverviewProps = {
-  area: PrivateWorkspaceArea
-}
-
-export function PrivateAreaOverview({ area }: PrivateAreaOverviewProps) {
-  const content = privateAreaOverview[area]
-  const secondaryHref = area === "admin" ? "/portal" : "/portal/admin"
-  const secondaryLabel = area === "admin" ? "Open Member Portal" : "Open Admin Workspace"
-
+export function AdminOverview() {
   return (
     <div className="space-y-8">
       <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <Card className="border-primary/10 bg-white p-6 shadow-card">
-          <span className="section-label">{content.eyebrow}</span>
-          <h2 className="mt-3 type-h2 text-ink-900">{content.title}</h2>
-          <p className="mt-3 type-body">{content.description}</p>
+          <span className="section-label">{adminOverview.eyebrow}</span>
+          <h2 className="mt-3 type-h2 text-ink-900">{adminOverview.title}</h2>
+          <p className="mt-3 type-body">{adminOverview.description}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild>
               <Link href="/">Back to Public Site</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
             </Button>
           </div>
         </Card>
@@ -65,17 +44,18 @@ export function PrivateAreaOverview({ area }: PrivateAreaOverviewProps) {
         <Card className="border-primary/10 bg-primary p-6 text-primary-foreground shadow-card">
           <h2 className="type-h2 text-primary-foreground">Why this structure works</h2>
           <p className="mt-3 text-base leading-relaxed text-primary-foreground/80">
-            Public discovery stays simple, while all sensitive workflows live
-            under the same private shell. That makes auth, roles, and shared
-            internal UI much easier to grow later.
+            Public discovery stays simple, while all sensitive workflows stay
+            behind a dedicated admin route. That makes auth, permissions, and
+            internal tooling easier to extend later.
           </p>
         </Card>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {content.modules.map((module) => {
+        {adminOverview.modules.map((module) => {
           const Icon = moduleIcons[module.id as keyof typeof moduleIcons]
-          const stateMeta = moduleStateMeta[module.state]
+          const stateMeta =
+            moduleStateMeta[module.state as keyof typeof moduleStateMeta]
 
           return (
             <Card

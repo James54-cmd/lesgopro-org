@@ -32,8 +32,8 @@ export function SiteHeader() {
           size="sm"
           className="bg-secondary text-primary-dark hover:brightness-105"
         >
-          <Link href="/portal">
-            Private Portal
+          <Link href="/admin">
+            Admin
             <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>

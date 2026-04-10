@@ -15,8 +15,8 @@ export function SiteFooter() {
           className="mx-auto text-secondary [&_p:last-child]:text-cream/65"
         />
         <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-cream/65">
-          Public pages stay focused on students and visitors, while member and
-          admin workflows live in a cleaner private portal structure.
+          Public pages stay focused on students and visitors, while admin tools
+          stay in a separate protected area.
         </p>
 
         <div className="mt-6 flex flex-wrap justify-center gap-3">

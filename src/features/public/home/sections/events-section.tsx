@@ -1,8 +1,5 @@
-import Link from "next/link"
-import { Calendar } from "lucide-react"
 import { SectionHeading } from "@/components/app/section-heading"
 import { SectionShell } from "@/components/app/section-shell"
-import { Button } from "@/components/ui/button"
 import { EventCard } from "@/features/public/home/components/event-card"
 import { homeContent } from "@/features/public/home/home-content"
 
@@ -22,15 +19,6 @@ export function EventsSection() {
         {upcomingEvents.map((event) => (
           <EventCard key={event.title} event={event} />
         ))}
-      </div>
-
-      <div className="mt-8 text-center">
-        <Button asChild>
-          <Link href="/portal">
-            <Calendar className="h-4 w-4" />
-            Open Member Calendar
-          </Link>
-        </Button>
       </div>
     </SectionShell>
   )

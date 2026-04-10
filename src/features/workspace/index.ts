@@ -1,1 +1,1 @@
-export { PrivateAreaOverview } from "./private-area-overview"
+export { AdminOverview } from "./admin-overview"

@@ -1,6 +1,6 @@
 export { BrandMark } from "./brand-mark"
+export { AdminShell } from "./admin-shell"
 export { OpeningLoader } from "./opening-loader"
-export { PrivateShell } from "./private-shell"
 export { SectionHeading } from "./section-heading"
 export { SectionShell } from "./section-shell"
 export { StatusBadge } from "./status-badge"

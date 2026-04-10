@@ -1,20 +1,10 @@
 import type { Metadata } from "next"
 
-export type AccessLayerKey = "public" | "private" | "admin"
-export type PrivateWorkspaceArea = "member" | "admin"
+export type SiteAreaKey = "public" | "admin"
 
 export type NavigationLink = {
   label: string
   href: string
-}
-
-export type AccessLayer = {
-  key: AccessLayerKey
-  label: string
-  href: string
-  audience: string
-  summary: string
-  access: string
 }
 
 export type WorkspaceModule = {
@@ -96,119 +86,47 @@ export const publicNavigation: NavigationLink[] = [
   { label: "Leadership", href: "/#leadership" },
   { label: "Events", href: "/#events" },
   { label: "Projects", href: "/#projects" },
-  { label: "Access", href: "/#access-layers" },
 ]
 
 export const footerNavigation: NavigationLink[] = [
   { label: "Public Home", href: "/" },
-  { label: "Private Portal", href: "/portal" },
   { label: "Programs", href: "/#program-offers" },
   { label: "Events", href: "/#events" },
   { label: "Projects", href: "/#projects" },
-  { label: "Access Layers", href: "/#access-layers" },
+  { label: "Admin", href: "/admin" },
 ]
 
-export const accessLayers: AccessLayer[] = [
-  {
-    key: "public",
-    label: "Public Experience",
-    href: "/#overview",
-    audience: "Students, guests, and other visitors",
-    summary:
-      "Open-facing pages for program information, organization highlights, and community discovery.",
-    access: "Open access",
-  },
-  {
-    key: "private",
-    label: "Private Portal",
-    href: "/portal",
-    audience: "Authenticated members",
-    summary:
-      "A member-only space for updates, resources, collaboration, and internal activity flows.",
-    access: "Sign-in required",
-  },
-  {
-    key: "admin",
-    label: "Admin Workspace",
-    href: "/portal/admin",
-    audience: "Admins inside the private area",
-    summary:
-      "Restricted tools nested under the private workspace for approvals, publishing, and internal operations.",
-    access: "Role restricted",
-  },
-]
-
-export const privateNavigation: NavigationLink[] = [
+export const adminNavigation: NavigationLink[] = [
   { label: "Public Site", href: "/" },
-  { label: "Member Portal", href: "/portal" },
-  { label: "Admin Workspace", href: "/portal/admin" },
+  { label: "Admin Dashboard", href: "/admin" },
 ]
 
-export const privateAreaOverview: Record<
-  PrivateWorkspaceArea,
-  {
-    eyebrow: string
-    title: string
-    description: string
-    modules: WorkspaceModule[]
-  }
-> = {
-  member: {
-    eyebrow: "Member Portal",
-    title: "A clean private space for member collaboration and resources",
-    description:
-      "This protected area is ready for member-only content so internal tools can grow without cluttering the public site.",
-    modules: [
-      {
-        id: "member-home",
-        title: "Member Home",
-        description:
-          "A personalized dashboard for updates, quick actions, and role-aware shortcuts.",
-        state: "foundation",
-      },
-      {
-        id: "project-hub",
-        title: "Project Hub",
-        description:
-          "A shared space for active builds, documentation, and collaboration across teams.",
-        state: "next",
-      },
-      {
-        id: "event-calendar",
-        title: "Event Calendar",
-        description:
-          "A member-only calendar for attendance, schedules, and internal coordination.",
-        state: "planned",
-      },
-    ],
-  },
-  admin: {
-    eyebrow: "Admin Workspace",
-    title: "Admin tools nested inside the private layer",
-    description:
-      "Admin pages now sit inside the private structure so they can share the same protected shell, navigation, and future auth boundary.",
-    modules: [
-      {
-        id: "content-publishing",
-        title: "Content Publishing",
-        description:
-          "Manage homepage sections, announcements, and visible content from a dedicated admin area.",
-        state: "foundation",
-      },
-      {
-        id: "member-approvals",
-        title: "Member Approvals",
-        description:
-          "Review applications, update roles, and keep member data organized.",
-        state: "next",
-      },
-      {
-        id: "operations-desk",
-        title: "Operations Desk",
-        description:
-          "Handle internal tasks, publishing workflows, and role-specific operations.",
-        state: "planned",
-      },
-    ],
-  },
+export const adminOverview = {
+  eyebrow: "Admin Workspace",
+  title: "Protected tools for managing the public site",
+  description:
+    "Admin stays inside the protected route boundary, while the public site remains focused on students and other visitors.",
+  modules: [
+    {
+      id: "content-publishing",
+      title: "Content Publishing",
+      description:
+        "Manage homepage sections, announcements, and visible public content from one place.",
+      state: "foundation",
+    },
+    {
+      id: "events-planning",
+      title: "Events Planning",
+      description:
+        "Prepare schedules, event highlights, and upcoming activities before they appear on the public site.",
+      state: "next",
+    },
+    {
+      id: "site-operations",
+      title: "Site Operations",
+      description:
+        "Handle admin-only settings, workflow checks, and future protected management tools.",
+      state: "planned",
+    },
+  ],
 }

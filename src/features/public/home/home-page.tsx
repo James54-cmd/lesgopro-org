@@ -1,10 +1,8 @@
 import {
-  AccessLayersSection,
   EventsSection,
   GallerySection,
   HeroSection,
-  JoinCtaSection,
-  MembersSection,
+  LeadershipSection,
   ProgramOffersSection,
   ProjectsSection,
   StatsSection,
@@ -14,12 +12,10 @@ const sections = [
   HeroSection,
   StatsSection,
   ProgramOffersSection,
-  AccessLayersSection,
-  MembersSection,
+  LeadershipSection,
   EventsSection,
   ProjectsSection,
   GallerySection,
-  JoinCtaSection,
 ]
 
 export function HomePage() {

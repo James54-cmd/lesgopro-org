@@ -10,13 +10,13 @@ const statusBadgeVariants = cva(
         officer: "bg-primary/10 text-primary",
         lead: "bg-secondary/15 text-secondary-dark",
         active: "bg-accent/12 text-accent",
-        member: "bg-ink-400/10 text-ink-700",
+        neutral: "bg-ink-400/10 text-ink-700",
         pending: "bg-secondary/10 text-secondary-dark",
         inactive: "bg-ink-400/20 text-ink-400",
       },
     },
     defaultVariants: {
-      variant: "member",
+      variant: "neutral",
     },
   }
 )

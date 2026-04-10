@@ -1,4 +1,3 @@
-import { accessLayers } from "@/config/site"
 import type { HomeContent } from "@/features/public/home/home-types"
 
 export const homeContent: HomeContent = {
@@ -35,11 +34,11 @@ export const homeContent: HomeContent = {
       description:
         "Build a strong foundation in computing through our industry-aligned academic offering.",
     },
-    members: {
+    leadership: {
       label: "Meet the team",
-      title: "Our Leadership",
+      title: "Leadership Team",
       description:
-        "Dedicated officers and leads who guide our organization toward excellence.",
+        "The officers and leads guiding LESGOPRO's activities, projects, and student initiatives.",
     },
     events: {
       label: "What's happening",
@@ -58,29 +57,16 @@ export const homeContent: HomeContent = {
       description:
         "Snapshots from workshops, hackathons, and community activities that define our culture.",
     },
-    access: {
-      label: "Access Layers",
-      title: "Public, Private, and Admin Boundaries",
-      description:
-        "The site is now organized so visitors stay in the public experience while members and admins work inside the protected portal.",
-    },
-  },
-  cta: {
-    title: "Ready to keep exploring LESGOPRO?",
-    description:
-      "The public site stays open for students and visitors, while the private portal is prepared for member and admin workflows.",
-    primaryLabel: "Open Private Portal",
-    secondaryLabel: "See Access Layers",
   },
   programFooterNote:
     "All programs are offered at Mandaue City College under CHED-accredited curriculum.",
   organizationStats: [
-    { value: "120+", label: "Active Members" },
+    { value: "120+", label: "Students Reached" },
     { value: "45", label: "Projects Built" },
     { value: "25+", label: "Events Hosted" },
     { value: "6", label: "Years Strong" },
   ],
-  leadershipMembers: [
+  leadershipTeam: [
     {
       name: "Juan dela Cruz",
       role: "President",
@@ -198,7 +184,7 @@ export const homeContent: HomeContent = {
     },
     {
       title: "Community Mentoring",
-      caption: "Officer mentoring session for new members.",
+      caption: "Officer mentoring session for newer students.",
       imageUrl:
         "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
       alt: "Small group mentoring session",
@@ -213,5 +199,4 @@ export const homeContent: HomeContent = {
       tag: "Hackathon",
     },
   ],
-  accessLayers,
 }
