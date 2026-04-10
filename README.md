@@ -1,22 +1,15 @@
 # LESGOPRO - Learner's Group of Programmers
 
-A modern web application for the LESGOPRO organization at Mandaue City College, built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
-
-## Design System Features
-
-- **LESGOPRO Brand Colors**: Crimson red, antique gold, laurel green, and warm cream
-- **shadcn/ui Integration**: Pre-built accessible components with LESGOPRO theming
-- **Responsive Design**: Mobile-first approach with clean, collegiate aesthetics
-- **Type-safe**: Full TypeScript support with proper type definitions
+A Next.js application for LESGOPRO at Mandaue City College with a clearer split between the public site, the protected private portal, and admin tools nested inside the private area.
 
 ## Tech Stack
 
 - **Framework**: Next.js 14 with App Router
-- **Styling**: Tailwind CSS with custom LESGOPRO design tokens
-- **Components**: shadcn/ui with branded wrapper components
-- **Icons**: Lucide React
-- **Typography**: Inter Font (Google Fonts)
 - **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI primitives**: shadcn/ui
+- **Icons**: Lucide React
+- **Fonts**: Cormorant Garamond and Source Sans 3
 
 ## Getting Started
 
@@ -53,110 +46,50 @@ pnpm dev
 
 4. Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-### Adding shadcn/ui Components
-
-To add more shadcn/ui components:
-
-```bash
-npx shadcn@latest add [component-name]
-```
-
-For example:
-```bash
-npx shadcn@latest add dialog dropdown-menu table tabs
-```
-
 ## Project Structure
 
 ```
 src/
-├── app/                     # Next.js App Router pages
-│   ├── layout.tsx          # Root layout with Inter font
-│   └── page.tsx            # Homepage
+├── app/
+│   ├── (public)/           # Open-facing pages for students and other visitors
+│   ├── (private)/          # Protected portal shell
+│   │   └── portal/admin/   # Admin stays inside the private boundary
+│   ├── api/                # Future Next.js route handlers
+│   └── layout.tsx          # Root fonts, metadata, loader, assistant
 ├── components/
-│   ├── ui/                 # shadcn/ui generated components
-│   │   ├── button.tsx
-│   │   ├── card.tsx
-│   │   └── badge.tsx
-│   ├── layout/             # Layout components
-│   │   ├── navbar.tsx
-│   │   └── footer.tsx
-│   └── shared/             # LESGOPRO branded components
-│       ├── section-header.tsx
-│       ├── stat-card.tsx
-│       ├── status-badge.tsx
-│       ├── member-card.tsx
-│       └── event-card.tsx
+│   ├── app/                # Cross-feature shells and app-level shared components
+│   ├── navigation/         # Shared navigation components
+│   └── ui/                 # Reusable design-system primitives
 ├── features/
-│   └── home/
-│       ├── data.ts         # Homepage content and typed data
-│       └── sections/       # Home page section components
-│           ├── hero-section.tsx
-│           ├── stats-section.tsx
-│           ├── members-section.tsx
-│           ├── events-section.tsx
-│           ├── projects-section.tsx
-│           └── join-cta-section.tsx
+│   ├── assistant/          # AI assistant feature
+│   ├── public/home/        # Public homepage feature module
+│   └── workspace/          # Private portal and admin overview components
+├── hooks/                  # Shared hooks used by multiple features
 ├── lib/
-│   └── utils.ts            # Utility functions (cn helper)
+│   ├── api/                # Shared API clients and adapters
+│   └── utils.ts            # Shared utilities
+├── types/                  # Cross-feature shared types
 └── styles/
-    └── globals.css         # Global styles with CSS variables
+    └── globals.css         # Global styles and design tokens
 ```
 
-## Component Library
+## Conventions
 
-### LESGOPRO Components
+- Feature-first organization: keep feature-specific components, hooks, types, and content inside the feature folder.
+- Shared primitives only: `src/components/ui` is for reusable UI building blocks, not feature UI.
+- Shared app shells only: `src/components/app` is for shells and app-wide building blocks.
+- Explicit file names: prefer names like `home-content.ts`, `home-types.ts`, and `assistant-types.ts`.
+- Barrel files: use `index.ts` only at stable boundaries.
 
-- **SectionHeader**: Branded section headers with labels and titles
-- **StatCard**: Statistical display cards with LESGOPRO styling
-- **StatusBadge**: Status indicators with brand color variants
-- **MemberCard**: Member profile cards with roles and specializations
-- **EventCard**: Event display cards with date, status, and registration info
+`AGENTS.md` is the source of truth for future agent and contributor conventions.
 
-### Design Tokens
+## Commands
 
-The design system includes:
-- **Colors**: Primary (crimson), Secondary (gold), Accent (green), Cream background
-- **Typography**: Inter font with defined scale and spacing
-- **Shadows**: Branded shadow system with ink-based colors
-- **Border Radius**: Consistent rounded corners (6px, 8px, 12px, 16px)
-
-## Customization
-
-### Adding New Color Variants
-
-1. Add colors to `tailwind.config.ts`:
-```typescript
-colors: {
-  'new-color': {
-    DEFAULT: '#hex-value',
-    light: '#hex-value',
-    dark: '#hex-value',
-  }
-}
+```bash
+npm run dev
+npm run lint
+npm run type-check
 ```
-
-2. Add CSS variables to `globals.css`:
-```css
-:root {
-  --new-color: hsl-values;
-}
-```
-
-### Creating New Components
-
-Follow the pattern:
-1. Use shadcn/ui base components when possible
-2. Create wrapper components in `shared/` that apply LESGOPRO styling
-3. Use the `cn()` utility for conditional styling
-4. Follow the established component prop patterns
-
-## Contributing
-
-1. Follow the established component patterns
-2. Use TypeScript for all new code
-3. Maintain the LESGOPRO design consistency
-4. Test components in the homepage before committing
 
 ## License
 

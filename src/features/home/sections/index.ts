@@ -1,7 +1,0 @@
-export { HeroSection } from "./hero-section"
-export { StatsSection } from "./stats-section"
-export { ProgramOffersSection } from "./program-offers-section"
-export { MembersSection } from "./members-section"
-export { EventsSection } from "./events-section"
-export { ProjectsSection } from "./projects-section"
-export { JoinCtaSection } from "./join-cta-section"
