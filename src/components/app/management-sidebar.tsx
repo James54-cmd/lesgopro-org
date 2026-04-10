@@ -2,86 +2,13 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  BarChart3,
-  CalendarDays,
-  FolderKanban,
-  Globe2,
-  GraduationCap,
-  Home,
-  ImagePlay,
-  RadioTower,
-  ShieldCheck,
-  Users2,
-} from "lucide-react"
 import { BrandMark } from "@/components/app/brand-mark"
+import { useManagementNavigation } from "@/features/workspace"
 import { cn } from "@/lib/utils"
-
-const managementNavigation = [
-  {
-    label: "Dashboard",
-    href: "/admin",
-    icon: Home,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Analytics",
-    href: "/admin#analytics",
-    icon: BarChart3,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "School Year",
-    href: "/admin#school-year",
-    icon: GraduationCap,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Officers",
-    href: "/admin#leadership",
-    icon: ShieldCheck,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Programs",
-    href: "/admin#programs-projects",
-    icon: FolderKanban,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Events",
-    href: "/admin#events-gallery",
-    icon: CalendarDays,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Gallery",
-    href: "/admin#events-gallery",
-    icon: ImagePlay,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Socials",
-    href: "/admin#socials",
-    icon: RadioTower,
-    match: (pathname: string) => pathname === "/admin",
-  },
-  {
-    label: "Public Site",
-    href: "/",
-    icon: Globe2,
-    match: () => false,
-  },
-  {
-    label: "Enrollment",
-    href: "/admin#school-year",
-    icon: Users2,
-    match: (pathname: string) => pathname === "/admin",
-  },
-] as const
 
 export function ManagementSidebar() {
   const pathname = usePathname()
+  const managementNavigation = useManagementNavigation()
 
   return (
     <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-primary/10 bg-[linear-gradient(180deg,#fffdf9_0%,#f8f3eb_100%)] xl:flex xl:flex-col">
