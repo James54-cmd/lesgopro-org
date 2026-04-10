@@ -36,13 +36,33 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
-    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    overscroll-behavior-y: contain;
+    scrollbar-width: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  section {
+    scroll-margin-top: 5rem;
   }
 }
 
@@ -156,6 +176,30 @@
   }
 }
 
+@keyframes opening-loader-pulse {
+  0% {
+    transform: scale(0.96);
+    box-shadow: 0 0 0 0 rgba(201, 151, 42, 0.28);
+  }
+  65% {
+    transform: scale(1);
+    box-shadow: 0 0 0 16px rgba(201, 151, 42, 0);
+  }
+  100% {
+    transform: scale(0.98);
+    box-shadow: 0 0 0 0 rgba(201, 151, 42, 0);
+  }
+}
+
+@keyframes opening-loader-bar {
+  0% {
+    transform: translateX(-115%);
+  }
+  100% {
+    transform: translateX(235%);
+  }
+}
+
 @layer components {
   .hero-slide {
     animation: hero-fade-slide 18s ease-in-out infinite;
@@ -186,13 +230,28 @@
   .scroll-hint-wheel {
     animation: hint-wheel 1.4s ease-in-out infinite;
   }
+
+  .opening-loader-pulse {
+    animation: opening-loader-pulse 1.7s ease-in-out infinite;
+  }
+
+  .opening-loader-bar {
+    animation: opening-loader-bar 1.3s ease-in-out infinite;
+    will-change: transform;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .hero-slide,
   .hero-reveal,
   .scroll-hint-pulse,
-  .scroll-hint-wheel {
+  .scroll-hint-wheel,
+  .opening-loader-pulse,
+  .opening-loader-bar {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

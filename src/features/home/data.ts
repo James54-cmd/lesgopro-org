@@ -23,6 +23,12 @@ export interface Project {
   status: "In Development" | "Live" | "Beta"
 }
 
+export interface ProgramOffer {
+  title: string
+  description: string
+  degreeType: string
+}
+
 export interface GalleryItem {
   title: string
   caption: string
@@ -120,6 +126,15 @@ export const featuredProjects: Project[] = [
       "Automated code review tool for educational projects using AI workflows.",
     tech: "Python, FastAPI, OpenAI API",
     status: "Beta",
+  },
+]
+
+export const programOffers: ProgramOffer[] = [
+  {
+    title: "Bachelor of Science in Information Technology",
+    description:
+      "A comprehensive program focused on software development, networking, databases, and modern IT solutions for real-world applications.",
+    degreeType: "Undergraduate Program",
   },
 ]
 

@@ -5,6 +5,7 @@ import {
   HeroSection,
   JoinCtaSection,
   MembersSection,
+  ProgramOffersSection,
   ProjectsSection,
   StatsSection,
 } from "@/features/home/sections"
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Navbar />
       <HeroSection />
       <StatsSection />
+      <ProgramOffersSection />
       <MembersSection />
       <EventsSection />
       <ProjectsSection />
