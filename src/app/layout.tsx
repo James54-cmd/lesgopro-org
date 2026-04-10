@@ -1,8 +1,7 @@
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google"
 import type { ReactNode } from "react"
-import { OpeningLoader } from "@/components/app"
 import { siteMetadata } from "@/config/site"
-import { AIAssistantDock } from "@/features/assistant"
+import { RootOverlays } from "@/components/app/root-overlays"
 import "@/styles/globals.css"
 
 const display = Cormorant_Garamond({
@@ -29,8 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen antialiased">
-        <OpeningLoader />
-        <AIAssistantDock />
+        <RootOverlays />
         {children}
       </body>
     </html>

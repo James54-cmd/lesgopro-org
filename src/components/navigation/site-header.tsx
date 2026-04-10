@@ -32,7 +32,7 @@ export function SiteHeader() {
           size="sm"
           className="bg-secondary text-primary-dark hover:brightness-105"
         >
-          <Link href="/admin">
+          <Link href="/admin/login">
             Admin
             <ArrowRight className="h-4 w-4" />
           </Link>
