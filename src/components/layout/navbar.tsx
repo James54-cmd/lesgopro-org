@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 
 export function Navbar() {
   return (
-    <nav className="flex h-16 items-center justify-between border-b-4 border-secondary bg-primary px-4 sm:px-6 lg:px-8">
+    <nav className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b-4 border-secondary bg-primary/95 px-4 backdrop-blur-sm sm:px-6 lg:px-8">
       <div className="flex items-center gap-3">
         <Image
           src="/brand/lesgopro_logo.png"

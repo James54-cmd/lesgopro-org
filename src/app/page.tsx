@@ -12,7 +12,7 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col pt-16">
       <Navbar />
       <HeroSection />
       <StatsSection />
