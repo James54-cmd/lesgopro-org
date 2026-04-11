@@ -1,3 +1,8 @@
+import {
+  isValidPhilippineMobileNumber,
+  normalizePhilippineMobileNumber,
+} from "@/lib/phone-number"
+
 type ValidationFieldErrors = Record<string, string>
 
 type ValidationSuccess = {
@@ -57,7 +62,8 @@ function readOptionalPhoneNumber(value: unknown) {
     return null
   }
 
-  return /^[0-9+\-\s()]{7,20}$/.test(nextValue) ? nextValue : null
+  const normalizedValue = normalizePhilippineMobileNumber(nextValue)
+  return isValidPhilippineMobileNumber(normalizedValue) ? normalizedValue : null
 }
 
 function readOptionalInteger(value: unknown) {

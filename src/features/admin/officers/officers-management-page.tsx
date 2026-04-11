@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ImageUploadField } from "@/components/ui/image-upload-field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { PhoneInput } from "@/components/ui/phone-input"
 import {
   Select,
   SelectContent,
@@ -515,11 +516,11 @@ export function OfficersManagementPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone_number">Phone number</Label>
-                  <Input
+                  <PhoneInput
                     id="phone_number"
                     value={formValues.phone_number}
-                    onChange={(event) => updateField("phone_number", event.target.value)}
-                    placeholder="Optional contact number"
+                    onValueChange={(value) => updateField("phone_number", value)}
+                    placeholder="+63 982 124 4234"
                     disabled={isSubmitting}
                     aria-invalid={Boolean(fieldErrors.phone_number)}
                   />
