@@ -62,12 +62,14 @@ export function OfficersManagementPage() {
     filteredOfficers,
     schoolYears,
     officerPositions,
+    availableOfficerPositions,
     currentSchoolYear,
     selectedSchoolYearFilter,
     allSchoolYearsFilterValue,
     isLoading,
     isSubmitting,
     errorMessage,
+    fieldErrors,
     isEditing,
     formValues,
     loadData,
@@ -326,6 +328,9 @@ export function OfficersManagementPage() {
                       disabled={isSubmitting}
                       className="min-w-[18rem]"
                     />
+                    {fieldErrors.photo_url ? (
+                      <p className="mt-2 text-xs text-destructive">{fieldErrors.photo_url}</p>
+                    ) : null}
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-ink-900">{displayName}</p>
@@ -346,7 +351,7 @@ export function OfficersManagementPage() {
                     onValueChange={(value) => updateField("school_year_id", value)}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger id="school_year_id">
+                    <SelectTrigger id="school_year_id" aria-invalid={Boolean(fieldErrors.school_year_id)}>
                       <SelectValue placeholder="Select school year" />
                     </SelectTrigger>
                     <SelectContent>
@@ -361,6 +366,9 @@ export function OfficersManagementPage() {
                   <p className="text-xs text-ink-500">
                     Defaults to the current school year, but you can switch to a past year when needed.
                   </p>
+                  {fieldErrors.school_year_id ? (
+                    <p className="text-xs text-destructive">{fieldErrors.school_year_id}</p>
+                  ) : null}
                 </div>
 
                 <div className="space-y-2">
@@ -370,11 +378,11 @@ export function OfficersManagementPage() {
                     onValueChange={(value) => updateField("officer_position_id", value)}
                     disabled={isSubmitting}
                   >
-                    <SelectTrigger id="officer_position_id">
+                    <SelectTrigger id="officer_position_id" aria-invalid={Boolean(fieldErrors.officer_position_id)}>
                       <SelectValue placeholder="Select position" />
                     </SelectTrigger>
                     <SelectContent>
-                      {activeOfficerPositions.map((position) => (
+                      {availableOfficerPositions.map((position) => (
                         <SelectItem key={position.id} value={position.id}>
                           {position.name}
                         </SelectItem>
@@ -382,21 +390,30 @@ export function OfficersManagementPage() {
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-ink-500">
-                    Use custom position only if this officer should not use one of the standard roles.
+                    Positions already used for this school year are hidden to avoid duplicates.
                   </p>
+                  {fieldErrors.officer_position_id ? (
+                    <p className="text-xs text-destructive">{fieldErrors.officer_position_id}</p>
+                  ) : null}
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="custom_position_name">Custom position name</Label>
-                <Input
-                  id="custom_position_name"
-                  value={formValues.custom_position_name}
-                  onChange={(event) => updateField("custom_position_name", event.target.value)}
-                  placeholder="Optional custom title"
-                  disabled={isSubmitting}
-                />
-              </div>
+              {!formValues.officer_position_id ? (
+                <div className="space-y-2">
+                  <Label htmlFor="custom_position_name">Custom position name</Label>
+                  <Input
+                    id="custom_position_name"
+                    value={formValues.custom_position_name}
+                    onChange={(event) => updateField("custom_position_name", event.target.value)}
+                    placeholder="Optional custom title"
+                    disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.custom_position_name)}
+                  />
+                  {fieldErrors.custom_position_name ? (
+                    <p className="text-xs text-destructive">{fieldErrors.custom_position_name}</p>
+                  ) : null}
+                </div>
+              ) : null}
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
@@ -407,7 +424,11 @@ export function OfficersManagementPage() {
                     onChange={(event) => updateField("first_name", event.target.value)}
                     placeholder="Juan"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.first_name)}
                   />
+                  {fieldErrors.first_name ? (
+                    <p className="text-xs text-destructive">{fieldErrors.first_name}</p>
+                  ) : null}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="last_name">Last name</Label>
@@ -417,7 +438,11 @@ export function OfficersManagementPage() {
                     onChange={(event) => updateField("last_name", event.target.value)}
                     placeholder="Dela Cruz"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.last_name)}
                   />
+                  {fieldErrors.last_name ? (
+                    <p className="text-xs text-destructive">{fieldErrors.last_name}</p>
+                  ) : null}
                 </div>
               </div>
 
@@ -429,12 +454,16 @@ export function OfficersManagementPage() {
                     type="number"
                     value={formValues.sort_order}
                     onChange={(event) => updateField("sort_order", event.target.value)}
-                    placeholder="0"
+                    placeholder="1"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.sort_order)}
                   />
                   <p className="text-xs text-ink-500">
                     Lower numbers appear first.
                   </p>
+                  {fieldErrors.sort_order ? (
+                    <p className="text-xs text-destructive">{fieldErrors.sort_order}</p>
+                  ) : null}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="profile_url">Profile link</Label>
@@ -445,7 +474,11 @@ export function OfficersManagementPage() {
                     onChange={(event) => updateField("profile_url", event.target.value)}
                     placeholder="Optional external profile link"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.profile_url)}
                   />
+                  {fieldErrors.profile_url ? (
+                    <p className="text-xs text-destructive">{fieldErrors.profile_url}</p>
+                  ) : null}
                 </div>
               </div>
 
@@ -457,7 +490,11 @@ export function OfficersManagementPage() {
                   onChange={(event) => updateField("bio", event.target.value)}
                   placeholder="Short public-facing bio"
                   disabled={isSubmitting}
+                  aria-invalid={Boolean(fieldErrors.bio)}
                 />
+                {fieldErrors.bio ? (
+                  <p className="text-xs text-destructive">{fieldErrors.bio}</p>
+                ) : null}
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
@@ -470,7 +507,11 @@ export function OfficersManagementPage() {
                     onChange={(event) => updateField("email", event.target.value)}
                     placeholder="optional@email.com"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.email)}
                   />
+                  {fieldErrors.email ? (
+                    <p className="text-xs text-destructive">{fieldErrors.email}</p>
+                  ) : null}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone_number">Phone number</Label>
@@ -480,7 +521,11 @@ export function OfficersManagementPage() {
                     onChange={(event) => updateField("phone_number", event.target.value)}
                     placeholder="Optional contact number"
                     disabled={isSubmitting}
+                    aria-invalid={Boolean(fieldErrors.phone_number)}
                   />
+                  {fieldErrors.phone_number ? (
+                    <p className="text-xs text-destructive">{fieldErrors.phone_number}</p>
+                  ) : null}
                 </div>
               </div>
 
@@ -491,9 +536,13 @@ export function OfficersManagementPage() {
                   onChange={(event) => updateField("is_active", event.target.checked)}
                   disabled={isSubmitting}
                   className="h-4 w-4 rounded border-border text-primary focus:ring-primary/15"
+                  aria-invalid={Boolean(fieldErrors.is_active)}
                 />
                 <span>Officer is active and can appear on the public site</span>
               </label>
+              {fieldErrors.is_active ? (
+                <p className="text-xs text-destructive">{fieldErrors.is_active}</p>
+              ) : null}
 
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button type="submit" disabled={isSubmitting}>

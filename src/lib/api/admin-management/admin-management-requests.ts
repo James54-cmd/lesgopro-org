@@ -9,6 +9,17 @@ type ManagementRecordListResponse = {
 type ManagementRecordItemResponse = {
   item?: ManagementRecord | null
   error?: string
+  fieldErrors?: Record<string, string>
+}
+
+export class AdminManagementRequestError extends Error {
+  fieldErrors?: Record<string, string>
+
+  constructor(message: string, fieldErrors?: Record<string, string>) {
+    super(message)
+    this.name = "AdminManagementRequestError"
+    this.fieldErrors = fieldErrors
+  }
 }
 
 async function parseResponse<T>(response: Response): Promise<T> {
@@ -41,7 +52,7 @@ export async function createManagementRecord(
   const payload = await parseResponse<ManagementRecordItemResponse>(response)
 
   if (!response.ok) {
-    throw new Error(payload.error || "Unable to save the record.")
+    throw new AdminManagementRequestError(payload.error || "Unable to save the record.", payload.fieldErrors)
   }
 
   return payload.item || null
@@ -63,7 +74,7 @@ export async function updateManagementRecord(
   const payload = await parseResponse<ManagementRecordItemResponse>(response)
 
   if (!response.ok) {
-    throw new Error(payload.error || "Unable to save the record.")
+    throw new AdminManagementRequestError(payload.error || "Unable to save the record.", payload.fieldErrors)
   }
 
   return payload.item || null

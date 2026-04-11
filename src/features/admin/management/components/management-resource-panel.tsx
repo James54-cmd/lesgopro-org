@@ -40,6 +40,7 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
     isLoading,
     isSubmitting,
     errorMessage,
+    fieldErrors,
     isEditing,
     formValues,
     fetchItems,
@@ -197,7 +198,8 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                       value={typeof fieldValue === "string" ? fieldValue : ""}
                       onChange={(event) => updateField(field.name, event.target.value)}
                       placeholder={field.placeholder}
-                      disabled={isSubmitting}
+                        disabled={isSubmitting}
+                        aria-invalid={Boolean(fieldErrors[field.name])}
                     />
                   ) : field.type === "select" ? (
                     <Select
@@ -205,7 +207,10 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                       onValueChange={(value) => updateField(field.name, value)}
                       disabled={isSubmitting}
                     >
-                      <SelectTrigger id={`${definition.name}-${field.name}`}>
+                      <SelectTrigger
+                        id={`${definition.name}-${field.name}`}
+                        aria-invalid={Boolean(fieldErrors[field.name])}
+                      >
                         <SelectValue placeholder="Select an option" />
                       </SelectTrigger>
                       <SelectContent>
@@ -224,6 +229,7 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                         checked={Boolean(fieldValue)}
                         onChange={(event) => updateField(field.name, event.target.checked)}
                         disabled={isSubmitting}
+                        aria-invalid={Boolean(fieldErrors[field.name])}
                         className="h-4 w-4 rounded border-border text-primary focus:ring-primary/15"
                       />
                       <span>{field.label}</span>
@@ -242,8 +248,13 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                       onChange={(event) => updateField(field.name, event.target.value)}
                       placeholder={field.placeholder}
                       disabled={isSubmitting}
+                      aria-invalid={Boolean(fieldErrors[field.name])}
                     />
                   )}
+
+                  {fieldErrors[field.name] ? (
+                    <p className="text-xs leading-relaxed text-destructive">{fieldErrors[field.name]}</p>
+                  ) : null}
 
                   {field.description ? (
                     <p className="text-xs leading-relaxed text-ink-500">{field.description}</p>

@@ -397,6 +397,39 @@ export async function deleteAdminContentItem(resource: string, id: string) {
   )
 }
 
+export async function findOfficerWithPositionInSchoolYear(
+  schoolYearId: string,
+  officerPositionId: string,
+  excludeOfficerId?: string
+) {
+  await requireCurrentAdminSession()
+
+  const { supabaseUrl } = getSupabaseServerEnv()
+  const url = new URL(`${supabaseUrl}/rest/v1/officers`)
+
+  url.searchParams.set(
+    "select",
+    "id,school_year_id,officer_position_id,first_name,last_name,is_active"
+  )
+  url.searchParams.set("school_year_id", `eq.${schoolYearId}`)
+  url.searchParams.set("officer_position_id", `eq.${officerPositionId}`)
+  url.searchParams.set("limit", "1")
+
+  if (excludeOfficerId) {
+    url.searchParams.set("id", `neq.${excludeOfficerId}`)
+  }
+
+  const rows = await fetchFromSupabase<Record<string, unknown>[]>(
+    url,
+    {
+      headers: getSupabaseHeaders("service"),
+    },
+    "Unable to validate duplicate officer positions."
+  )
+
+  return rows[0] || null
+}
+
 export async function getPublicSiteContent() {
   const { supabaseUrl } = getSupabaseServerEnv()
 

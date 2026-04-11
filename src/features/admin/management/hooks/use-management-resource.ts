@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useState } from "react"
 import {
+  AdminManagementRequestError,
   createManagementRecord,
   deleteManagementRecord,
   listManagementRecords,
   updateManagementRecord,
 } from "@/lib/api/admin-management/admin-management-requests"
+import { validateAdminContentPayload } from "@/lib/validation/admin-content-validation"
 import type {
   ManagementRecord,
   ManagementResourceDefinition,
@@ -41,6 +43,7 @@ export function useManagementResource(definition: ManagementResourceDefinition) 
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const state = useManagementResourceState(definition)
 
   const fetchItems = useCallback(async () => {
@@ -64,23 +67,35 @@ export function useManagementResource(definition: ManagementResourceDefinition) 
   async function submitForm() {
     setIsSubmitting(true)
     setErrorMessage(null)
+    setFieldErrors({})
 
     try {
       const body = Object.fromEntries(
         definition.fields.map((field) => [field.name, sanitizeFieldValue(field, state.formValues[field.name])])
       )
+      const validationResult = validateAdminContentPayload(definition.name, body)
+
+      if (!validationResult.success) {
+        setErrorMessage(validationResult.error)
+        setFieldErrors(validationResult.fieldErrors)
+        return false
+      }
 
       if (state.isEditing && state.editingItemId) {
-        await updateManagementRecord(definition.endpoint, state.editingItemId, body)
+        await updateManagementRecord(definition.endpoint, state.editingItemId, validationResult.data)
       } else {
-        await createManagementRecord(definition.endpoint, body)
+        await createManagementRecord(definition.endpoint, validationResult.data)
       }
 
       await fetchItems()
       state.startCreate()
+      setFieldErrors({})
 
       return true
     } catch (error) {
+      if (error instanceof AdminManagementRequestError) {
+        setFieldErrors(error.fieldErrors || {})
+      }
       setErrorMessage(
         error instanceof Error ? error.message : "Unable to reach the management API."
       )
@@ -115,12 +130,26 @@ export function useManagementResource(definition: ManagementResourceDefinition) 
 
   function startCreate() {
     setErrorMessage(null)
+    setFieldErrors({})
     state.startCreate()
   }
 
   function startEdit(item: ManagementRecord) {
     setErrorMessage(null)
+    setFieldErrors({})
     state.startEdit(item)
+  }
+
+  function updateValidatedField(name: string, value: ManagementRecord[string]) {
+    if (fieldErrors[name]) {
+      setFieldErrors((current) => {
+        const nextErrors = { ...current }
+        delete nextErrors[name]
+        return nextErrors
+      })
+    }
+
+    state.updateField(name, value)
   }
 
   return {
@@ -128,12 +157,13 @@ export function useManagementResource(definition: ManagementResourceDefinition) 
     isLoading,
     isSubmitting,
     errorMessage,
+    fieldErrors,
     isEditing: state.isEditing,
     formValues: state.formValues,
     fetchItems,
     startCreate,
     startEdit,
-    updateField: state.updateField,
+    updateField: updateValidatedField,
     submitForm,
     deleteItem,
   }

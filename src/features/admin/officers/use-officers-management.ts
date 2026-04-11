@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { validateAdminContentPayload, type ValidationFieldErrors } from "@/lib/validation/admin-content-validation"
 
 type OfficerRecord = {
   id: string
@@ -59,6 +60,7 @@ type ApiListResponse<T> = {
 type ApiItemResponse<T> = {
   item?: T | null
   error?: string
+  fieldErrors?: ValidationFieldErrors
 }
 
 const ALL_SCHOOL_YEARS_FILTER = "all"
@@ -76,7 +78,7 @@ function emptyOfficerFormValues(): OfficerFormValues {
     profile_url: "",
     email: "",
     phone_number: "",
-    sort_order: "0",
+    sort_order: "1",
     is_active: true,
   }
 }
@@ -132,6 +134,7 @@ export function useOfficersManagement() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<ValidationFieldErrors>({})
   const [editingOfficerId, setEditingOfficerId] = useState<string | null>(null)
   const [hasManualSlug, setHasManualSlug] = useState(false)
   const [selectedSchoolYearFilter, setSelectedSchoolYearFilter] = useState(ALL_SCHOOL_YEARS_FILTER)
@@ -151,6 +154,44 @@ export function useOfficersManagement() {
 
   const defaultSchoolYearId = currentSchoolYear?.id || schoolYears[0]?.id || null
   const isEditing = editingOfficerId !== null
+  const availableOfficerPositions = useMemo(() => {
+    const selectedSchoolYearId = formValues.school_year_id || defaultSchoolYearId
+
+    if (!selectedSchoolYearId) {
+      return officerPositions.filter((position) => position.is_active)
+    }
+
+    const takenPositionIds = new Set(
+      officers
+        .filter((officer) => {
+          return (
+            officer.school_year_id === selectedSchoolYearId &&
+            officer.officer_position_id &&
+            officer.id !== editingOfficerId
+          )
+        })
+        .map((officer) => officer.officer_position_id as string)
+    )
+
+    return officerPositions.filter((position) => {
+      if (!position.is_active) {
+        return false
+      }
+
+      if (position.id === formValues.officer_position_id) {
+        return true
+      }
+
+      return !takenPositionIds.has(position.id)
+    })
+  }, [
+    defaultSchoolYearId,
+    editingOfficerId,
+    formValues.officer_position_id,
+    formValues.school_year_id,
+    officerPositions,
+    officers,
+  ])
 
   const loadData = useCallback(async () => {
     setIsLoading(true)
@@ -217,6 +258,28 @@ export function useOfficersManagement() {
     })
   }, [formValues.first_name, formValues.last_name, hasManualSlug])
 
+  useEffect(() => {
+    if (!formValues.officer_position_id) {
+      return
+    }
+
+    const positionIsAvailable = availableOfficerPositions.some(
+      (position) => position.id === formValues.officer_position_id
+    )
+
+    if (!positionIsAvailable) {
+      setFormValues((current) => ({
+        ...current,
+        officer_position_id: "",
+      }))
+
+      setFieldErrors((current) => ({
+        ...current,
+        officer_position_id: "That position is already assigned for the selected school year.",
+      }))
+    }
+  }, [availableOfficerPositions, formValues.officer_position_id])
+
   function resetForm() {
     setEditingOfficerId(null)
     setHasManualSlug(false)
@@ -225,6 +288,7 @@ export function useOfficersManagement() {
       school_year_id: defaultSchoolYearId || "",
     })
     setErrorMessage(null)
+    setFieldErrors({})
   }
 
   function startEdit(officer: OfficerRecord) {
@@ -232,22 +296,41 @@ export function useOfficersManagement() {
     setHasManualSlug(true)
     setFormValues(normalizeOfficerFormValues(officer, defaultSchoolYearId))
     setErrorMessage(null)
+    setFieldErrors({})
   }
 
   function updateField<K extends keyof OfficerFormValues>(field: K, value: OfficerFormValues[K]) {
+    if (fieldErrors[field]) {
+      setFieldErrors((current) => {
+        const nextErrors = { ...current }
+        delete nextErrors[field]
+        return nextErrors
+      })
+    }
+
     setFormValues((current) => ({
       ...current,
       [field]: value,
+      ...(field === "officer_position_id" && value ? { custom_position_name: "" } : {}),
     }))
 
     if (field === "slug") {
       setHasManualSlug(true)
+    }
+
+    if (field === "officer_position_id" && value && fieldErrors.custom_position_name) {
+      setFieldErrors((current) => {
+        const nextErrors = { ...current }
+        delete nextErrors.custom_position_name
+        return nextErrors
+      })
     }
   }
 
   async function submitForm() {
     setIsSubmitting(true)
     setErrorMessage(null)
+    setFieldErrors({})
 
     const payload = {
       school_year_id: formValues.school_year_id || defaultSchoolYearId,
@@ -265,8 +348,20 @@ export function useOfficersManagement() {
       is_active: formValues.is_active,
     }
 
+    const validationResult = validateAdminContentPayload("officers", payload)
+
+    if (!validationResult.success) {
+      setErrorMessage(validationResult.error)
+      setFieldErrors(validationResult.fieldErrors)
+      setIsSubmitting(false)
+      return false
+    }
+
     if (!payload.school_year_id) {
       setErrorMessage("Select a school year before saving this officer.")
+      setFieldErrors({
+        school_year_id: "Choose a school year.",
+      })
       setIsSubmitting(false)
       return false
     }
@@ -279,13 +374,14 @@ export function useOfficersManagement() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(validationResult.data),
       })
 
       const responsePayload = (await response.json()) as ApiItemResponse<OfficerRecord>
 
       if (!response.ok) {
         setErrorMessage(responsePayload.error || "Unable to save the officer.")
+        setFieldErrors(responsePayload.fieldErrors || {})
         return false
       }
 
@@ -336,12 +432,14 @@ export function useOfficersManagement() {
     filteredOfficers,
     schoolYears,
     officerPositions,
+    availableOfficerPositions,
     currentSchoolYear,
     selectedSchoolYearFilter,
     allSchoolYearsFilterValue: ALL_SCHOOL_YEARS_FILTER,
     isLoading,
     isSubmitting,
     errorMessage,
+    fieldErrors,
     isEditing,
     formValues,
     loadData,
