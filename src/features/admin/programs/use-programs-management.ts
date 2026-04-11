@@ -10,7 +10,6 @@ type ProgramRecord = {
   description?: string | null
   thumbnail_url?: string | null
   video_url?: string | null
-  cta_url?: string | null
   sort_order?: number | null
   is_published: boolean
 }
@@ -21,7 +20,6 @@ type ProgramFormValues = {
   description: string
   thumbnail_url: string
   video_url: string
-  cta_url: string
   sort_order: string
   is_published: boolean
 }
@@ -44,7 +42,6 @@ function emptyProgramFormValues(): ProgramFormValues {
     description: "",
     thumbnail_url: "",
     video_url: "",
-    cta_url: "",
     sort_order: "1",
     is_published: false,
   }
@@ -66,7 +63,6 @@ function normalizeProgramFormValues(program: ProgramRecord): ProgramFormValues {
     description: program.description || "",
     thumbnail_url: program.thumbnail_url || "",
     video_url: program.video_url || "",
-    cta_url: program.cta_url || "",
     sort_order:
       typeof program.sort_order === "number" && Number.isFinite(program.sort_order)
         ? String(program.sort_order)
@@ -216,7 +212,6 @@ export function useProgramsManagement() {
       description: formValues.description.trim() || null,
       thumbnail_url: formValues.thumbnail_url.trim() || null,
       video_url: formValues.video_url.trim() || null,
-      cta_url: formValues.cta_url.trim() || null,
       sort_order: formValues.sort_order.trim() === "" ? null : Number(formValues.sort_order),
       is_published: formValues.is_published,
     }

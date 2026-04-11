@@ -213,9 +213,6 @@ export function ProgramsManagementPage() {
                           <span className="rounded-full bg-muted px-3 py-1">
                             Sort order: {formatValue(program.sort_order)}
                           </span>
-                          <span className="rounded-full bg-muted px-3 py-1">
-                            CTA: {formatValue(program.cta_url)}
-                          </span>
                         </div>
                       </div>
                     </div>
@@ -321,17 +318,6 @@ export function ProgramsManagementPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="slug">Slug</Label>
-                <Input
-                  id="slug"
-                  value={formValues.slug}
-                  onChange={(event) => updateField("slug", event.target.value)}
-                  placeholder="bachelor-of-science-in-information-technology"
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                   id="description"
@@ -342,34 +328,18 @@ export function ProgramsManagementPage() {
                 />
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="cta_url">CTA URL</Label>
-                  <Input
-                    id="cta_url"
-                    type="url"
-                    value={formValues.cta_url}
-                    onChange={(event) => updateField("cta_url", event.target.value)}
-                    placeholder="https://example.com/apply"
-                    disabled={isSubmitting}
-                    aria-invalid={Boolean(fieldErrors.cta_url)}
-                  />
-                  {fieldErrors.cta_url ? <p className="text-xs text-destructive">{fieldErrors.cta_url}</p> : null}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="sort_order">Sort order</Label>
-                  <Input
-                    id="sort_order"
-                    type="number"
-                    value={formValues.sort_order}
-                    onChange={(event) => updateField("sort_order", event.target.value)}
-                    placeholder="1"
-                    disabled={isSubmitting}
-                    aria-invalid={Boolean(fieldErrors.sort_order)}
-                  />
-                  {fieldErrors.sort_order ? <p className="text-xs text-destructive">{fieldErrors.sort_order}</p> : null}
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="sort_order">Sort order</Label>
+                <Input
+                  id="sort_order"
+                  type="number"
+                  value={formValues.sort_order}
+                  onChange={(event) => updateField("sort_order", event.target.value)}
+                  placeholder="1"
+                  disabled={isSubmitting}
+                  aria-invalid={Boolean(fieldErrors.sort_order)}
+                />
+                {fieldErrors.sort_order ? <p className="text-xs text-destructive">{fieldErrors.sort_order}</p> : null}
               </div>
 
               <label className="flex items-center gap-3 rounded-xl border border-primary/10 bg-muted/20 px-4 py-3 text-sm text-ink-800">
