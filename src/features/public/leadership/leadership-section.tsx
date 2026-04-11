@@ -10,7 +10,12 @@ import { LeadershipEmptyState } from "./components/leadership-empty-state"
 import { LeadershipPreview } from "./components/leadership-preview"
 
 export async function LeadershipSection() {
-  const { leaders } = await getPublicLeadershipData()
+  const { isVisible, leaders } = await getPublicLeadershipData()
+
+  if (!isVisible) {
+    return null
+  }
+
   const officerCount = leaders.filter((leader) => leader.status === "officer").length
 
   return (

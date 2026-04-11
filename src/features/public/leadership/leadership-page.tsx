@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { notFound } from "next/navigation"
 import { ArrowLeft, Sparkles, Users2 } from "lucide-react"
 import { SectionShell } from "@/components/app/section-shell"
 import { Button } from "@/components/ui/button"
@@ -10,7 +11,12 @@ import { LeadershipEmptyState } from "./components/leadership-empty-state"
 import { LeadershipPreview } from "./components/leadership-preview"
 
 export async function LeadershipPage() {
-  const { currentSchoolYear, leaders } = await getPublicLeadershipData()
+  const { currentSchoolYear, isVisible, leaders } = await getPublicLeadershipData()
+
+  if (!isVisible) {
+    notFound()
+  }
+
   const schoolYearLabel =
     currentSchoolYear && typeof currentSchoolYear.label === "string" ? currentSchoolYear.label : null
   const officerCount = leaders.filter((leader) => leader.status === "officer").length

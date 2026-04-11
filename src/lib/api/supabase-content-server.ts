@@ -3,6 +3,7 @@ import { requireCurrentAdminSession } from "@/lib/api/admin-auth-session"
 type SupabaseHeadersMode = "anon" | "service"
 
 type ContentResourceName =
+  | "site-settings"
   | "school-years"
   | "enrollment-counts"
   | "officer-positions"
@@ -74,6 +75,12 @@ const contentResourceConfigs: Record<ContentResourceName, ContentResourceConfig>
     select: "id,label,starts_on,ends_on,is_current,is_active,created_at,updated_at",
     order: "starts_on.desc.nullslast,created_at.desc",
     allowedFields: ["label", "starts_on", "ends_on", "is_current", "is_active"],
+  },
+  "site-settings": {
+    table: "site_settings",
+    select: "id,singleton,show_public_leadership,created_at,updated_at",
+    order: "created_at.asc",
+    allowedFields: ["show_public_leadership"],
   },
   "enrollment-counts": {
     table: "enrollment_counts",
@@ -436,7 +443,13 @@ export async function getPublicSiteContent() {
     currentItEnrollment = enrollmentRows[0] || null
   }
 
-  const [positions, officers, programs, projects, events, galleryItems, socialLinks] = await Promise.all([
+  const [siteSettingsRows, positions, officers, programs, projects, events, galleryItems, socialLinks] = await Promise.all([
+    fetchPublicCollection(
+      "site_settings",
+      "id,singleton,show_public_leadership,created_at,updated_at",
+      [],
+      "created_at.asc"
+    ),
     fetchPublicCollection("officer_positions", "id,name,slug,sort_order,is_active", [
       ["is_active", "eq.true"],
     ], "sort_order.asc,name.asc"),
@@ -513,6 +526,7 @@ export async function getPublicSiteContent() {
   })
 
   return {
+    siteSettings: siteSettingsRows[0] || null,
     currentSchoolYear,
     currentItStudentsCount:
       typeof currentItEnrollment?.student_count === "number" ? currentItEnrollment.student_count : 0,

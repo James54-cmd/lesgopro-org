@@ -1,6 +1,7 @@
 import {
   BarChart3,
   CalendarDays,
+  Eye,
   FolderKanban,
   Globe2,
   GraduationCap,
@@ -37,6 +38,12 @@ export function useAdminNavigation(): AdminNavigationItem[] {
       href: "/admin/officers",
       icon: ShieldCheck,
       match: (pathname: string) => pathname === "/admin/officers",
+    },
+    {
+      label: "Site Settings",
+      href: "/admin/site-settings",
+      icon: Eye,
+      match: (pathname: string) => pathname === "/admin/site-settings",
     },
     {
       label: "Programs",

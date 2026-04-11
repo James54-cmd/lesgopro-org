@@ -58,6 +58,10 @@ function mapOfficerToLeaderProfile(officer: Record<string, unknown>): PublicLead
 
 export async function getPublicLeadershipData() {
   const content = await getPublicSiteContent()
+  const siteSettings =
+    content.siteSettings && typeof content.siteSettings === "object" && !Array.isArray(content.siteSettings)
+      ? (content.siteSettings as Record<string, unknown>)
+      : null
   const leaders = Array.isArray(content.officers)
     ? content.officers
         .map((officer) => readRecord(officer))
@@ -75,6 +79,7 @@ export async function getPublicLeadershipData() {
 
   return {
     currentSchoolYear,
+    isVisible: siteSettings?.show_public_leadership !== false,
     leaders: [...leaders].sort(compareLeadershipOrder),
   }
 }
