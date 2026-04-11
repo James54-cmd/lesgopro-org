@@ -7,8 +7,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { cn } from "@/lib/utils"
 import type { ManagementRecord, ManagementResourceDefinition } from "../admin-management-types"
 import { useManagementResource } from "../hooks/use-management-resource"
 
@@ -194,22 +200,22 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                       disabled={isSubmitting}
                     />
                   ) : field.type === "select" ? (
-                    <select
-                      id={`${definition.name}-${field.name}`}
-                      className={cn(
-                        "flex h-11 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/15 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                      )}
+                    <Select
                       value={typeof fieldValue === "string" ? fieldValue : ""}
-                      onChange={(event) => updateField(field.name, event.target.value)}
+                      onValueChange={(value) => updateField(field.name, value)}
                       disabled={isSubmitting}
                     >
-                      <option value="">Select an option</option>
-                      {field.options?.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger id={`${definition.name}-${field.name}`}>
+                        <SelectValue placeholder="Select an option" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {field.options?.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   ) : field.type === "checkbox" ? (
                     <label className="flex items-center gap-3 rounded-xl border border-primary/10 bg-white px-3 py-3 text-sm text-ink-800">
                       <input
