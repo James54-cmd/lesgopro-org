@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { FormEvent } from "react"
-import { ArrowLeft, ArrowUpRight, Pencil, RefreshCcw, ShieldCheck, Trash2 } from "lucide-react"
+import { ArrowLeft, ArrowUpRight, Filter, Pencil, RefreshCcw, ShieldCheck, Trash2 } from "lucide-react"
 import { StatusBadge } from "@/components/app/status-badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -59,9 +59,12 @@ function formatValue(value: string | number | boolean | null | undefined) {
 export function OfficersManagementPage() {
   const {
     officers,
+    filteredOfficers,
     schoolYears,
     officerPositions,
     currentSchoolYear,
+    selectedSchoolYearFilter,
+    allSchoolYearsFilterValue,
     isLoading,
     isSubmitting,
     errorMessage,
@@ -70,6 +73,7 @@ export function OfficersManagementPage() {
     loadData,
     resetForm,
     startEdit,
+    setSelectedSchoolYearFilter,
     updateField,
     submitForm,
     deleteOfficer,
@@ -83,6 +87,11 @@ export function OfficersManagementPage() {
   const displayName = `${formValues.first_name} ${formValues.last_name}`.trim() || "Officer"
   const activeSchoolYears = schoolYears.filter((schoolYear) => schoolYear.is_active)
   const activeOfficerPositions = officerPositions.filter((position) => position.is_active)
+  const selectedFilterLabel =
+    selectedSchoolYearFilter === allSchoolYearsFilterValue
+      ? "All school years"
+      : schoolYears.find((schoolYear) => schoolYear.id === selectedSchoolYearFilter)?.label ||
+        "Filtered year"
 
   return (
     <div className="space-y-6">
@@ -168,9 +177,45 @@ export function OfficersManagementPage() {
           </CardHeader>
 
           <CardContent className="pt-6">
+            <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-ink-900">Active records</p>
+                <p className="mt-1 text-sm text-ink-600">
+                  Filter the roster by school year when you need to review a specific term.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-2 sm:min-w-[16rem]">
+                <Label htmlFor="officer-school-year-filter" className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">
+                  <span className="inline-flex items-center gap-2">
+                    <Filter className="h-3.5 w-3.5" />
+                    School year filter
+                  </span>
+                </Label>
+                <Select value={selectedSchoolYearFilter} onValueChange={setSelectedSchoolYearFilter}>
+                  <SelectTrigger id="officer-school-year-filter">
+                    <SelectValue placeholder="Filter by school year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={allSchoolYearsFilterValue}>All school years</SelectItem>
+                    {schoolYears.map((schoolYear) => (
+                      <SelectItem key={schoolYear.id} value={schoolYear.id}>
+                        {schoolYear.label}
+                        {schoolYear.is_current ? " (Current)" : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             <div className="mb-4 flex items-center justify-between gap-4">
-              <p className="text-sm font-semibold text-ink-900">Active records</p>
-              <StatusBadge variant="neutral">{officers.length} officers</StatusBadge>
+              <p className="text-sm font-medium text-ink-700">{selectedFilterLabel}</p>
+              <StatusBadge variant="neutral">
+                {filteredOfficers.length}
+                {selectedSchoolYearFilter === allSchoolYearsFilterValue ? ` of ${officers.length}` : ""}
+                {" "}officers
+              </StatusBadge>
             </div>
 
             {errorMessage ? (
@@ -183,17 +228,17 @@ export function OfficersManagementPage() {
               <div className="rounded-2xl border border-primary/10 bg-muted/40 px-4 py-8 text-sm text-ink-700">
                 Loading officers...
               </div>
-            ) : officers.length === 0 ? (
+            ) : filteredOfficers.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-primary/20 bg-muted/30 px-4 py-8">
-                <p className="text-sm font-semibold text-ink-900">No officers yet</p>
+                <p className="text-sm font-semibold text-ink-900">No officers for this school year</p>
                 <p className="mt-2 text-sm leading-relaxed text-ink-700">
-                  Create the first officer for the current school year and it can flow straight into
-                  the public leadership page.
+                  Try another school year filter, or create the first officer for this term so it can
+                  flow into the public leadership page when active.
                 </p>
               </div>
             ) : (
               <div className="space-y-3">
-                {officers.map((officer) => (
+                {filteredOfficers.map((officer) => (
                   <div
                     key={officer.id}
                     className="flex flex-col gap-4 rounded-2xl border border-primary/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(253,250,245,0.94))] p-4 shadow-sm lg:flex-row lg:items-start lg:justify-between"

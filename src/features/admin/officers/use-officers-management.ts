@@ -61,6 +61,8 @@ type ApiItemResponse<T> = {
   error?: string
 }
 
+const ALL_SCHOOL_YEARS_FILTER = "all"
+
 function emptyOfficerFormValues(): OfficerFormValues {
   return {
     school_year_id: "",
@@ -132,12 +134,20 @@ export function useOfficersManagement() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [editingOfficerId, setEditingOfficerId] = useState<string | null>(null)
   const [hasManualSlug, setHasManualSlug] = useState(false)
+  const [selectedSchoolYearFilter, setSelectedSchoolYearFilter] = useState(ALL_SCHOOL_YEARS_FILTER)
   const [formValues, setFormValues] = useState<OfficerFormValues>(emptyOfficerFormValues)
 
   const currentSchoolYear = useMemo(
     () => schoolYears.find((schoolYear) => schoolYear.is_current && schoolYear.is_active) || null,
     [schoolYears]
   )
+  const filteredOfficers = useMemo(() => {
+    if (selectedSchoolYearFilter === ALL_SCHOOL_YEARS_FILTER) {
+      return officers
+    }
+
+    return officers.filter((officer) => officer.school_year_id === selectedSchoolYearFilter)
+  }, [officers, selectedSchoolYearFilter])
 
   const defaultSchoolYearId = currentSchoolYear?.id || schoolYears[0]?.id || null
   const isEditing = editingOfficerId !== null
@@ -175,6 +185,18 @@ export function useOfficersManagement() {
       }))
     }
   }, [defaultSchoolYearId, formValues.school_year_id, isEditing])
+
+  useEffect(() => {
+    if (!schoolYears.length) {
+      return
+    }
+
+    const hasMatchingYear = schoolYears.some((schoolYear) => schoolYear.id === selectedSchoolYearFilter)
+
+    if (selectedSchoolYearFilter === ALL_SCHOOL_YEARS_FILTER || !hasMatchingYear) {
+      setSelectedSchoolYearFilter(defaultSchoolYearId || ALL_SCHOOL_YEARS_FILTER)
+    }
+  }, [defaultSchoolYearId, schoolYears, selectedSchoolYearFilter])
 
   useEffect(() => {
     if (hasManualSlug) {
@@ -311,9 +333,12 @@ export function useOfficersManagement() {
 
   return {
     officers,
+    filteredOfficers,
     schoolYears,
     officerPositions,
     currentSchoolYear,
+    selectedSchoolYearFilter,
+    allSchoolYearsFilterValue: ALL_SCHOOL_YEARS_FILTER,
     isLoading,
     isSubmitting,
     errorMessage,
@@ -322,6 +347,7 @@ export function useOfficersManagement() {
     loadData,
     resetForm,
     startEdit,
+    setSelectedSchoolYearFilter,
     updateField,
     submitForm,
     deleteOfficer,
