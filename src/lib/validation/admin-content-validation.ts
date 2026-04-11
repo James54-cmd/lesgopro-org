@@ -33,7 +33,7 @@ function readOptionalUrl(value: unknown) {
     return null
   }
 
-  if (nextValue.startsWith("data:image/")) {
+  if (nextValue.startsWith("data:image/") || nextValue.startsWith("data:video/")) {
     return nextValue
   }
 
@@ -92,6 +92,15 @@ function readRequiredDate(value: unknown) {
 
 function slugifyOfficerName(firstName: string, lastName: string) {
   return `${firstName} ${lastName}`
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+}
+
+function slugifyText(value: string) {
+  return value
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9\s-]/g, "")
@@ -235,6 +244,70 @@ function validateOfficers(payload: Record<string, unknown>): AdminContentValidat
   }
 }
 
+function validatePrograms(payload: Record<string, unknown>): AdminContentValidationResult {
+  const fieldErrors: ValidationFieldErrors = {}
+  const title = readTrimmedString(payload.title)
+  const slug = readTrimmedString(payload.slug) || slugifyText(title)
+  const description = readTrimmedString(payload.description)
+  const thumbnailUrl = readOptionalUrl(payload.thumbnail_url)
+  const videoUrl = readOptionalUrl(payload.video_url)
+  const ctaUrl = readOptionalUrl(payload.cta_url)
+  const sortOrder = readOptionalInteger(payload.sort_order)
+  const isPublished = readBoolean(payload.is_published)
+
+  if (title.length < 3) {
+    fieldErrors.title = "Enter a clear program title."
+  }
+
+  if (!slug) {
+    fieldErrors.title = fieldErrors.title || "Enter a title so a slug can be generated."
+  }
+
+  if (payload.thumbnail_url && !thumbnailUrl) {
+    fieldErrors.thumbnail_url = "Use a valid image file or image URL."
+  }
+
+  if (payload.video_url && !videoUrl) {
+    fieldErrors.video_url = "Use a valid video file or video URL."
+  }
+
+  if (!thumbnailUrl && !videoUrl) {
+    fieldErrors.thumbnail_url = "Upload a thumbnail image or a program video."
+    fieldErrors.video_url = "Upload a thumbnail image or a program video."
+  }
+
+  if (payload.cta_url && !ctaUrl) {
+    fieldErrors.cta_url = "Use a valid CTA URL."
+  }
+
+  if (sortOrder === null || sortOrder < 1) {
+    fieldErrors.sort_order = "Sort order must be 1 or higher."
+  }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      success: false,
+      error: "Fix the program details before saving.",
+      fieldErrors,
+    }
+  }
+
+  return {
+    success: true,
+    data: {
+      ...payload,
+      title,
+      slug,
+      description: description || null,
+      thumbnail_url: thumbnailUrl,
+      video_url: videoUrl,
+      cta_url: ctaUrl,
+      sort_order: sortOrder,
+      is_published: isPublished,
+    },
+  }
+}
+
 export function validateAdminContentPayload(
   resource: string,
   payload: Record<string, unknown>
@@ -245,6 +318,10 @@ export function validateAdminContentPayload(
 
   if (resource === "officers") {
     return validateOfficers(payload)
+  }
+
+  if (resource === "programs") {
+    return validatePrograms(payload)
   }
 
   return {

@@ -47,9 +47,9 @@ export function useAdminNavigation(): AdminNavigationItem[] {
     },
     {
       label: "Programs",
-      href: "/admin#programs-projects",
+      href: "/admin/programs",
       icon: FolderKanban,
-      match: (pathname: string) => pathname === "/admin",
+      match: (pathname: string) => pathname === "/admin/programs",
     },
     {
       label: "Events",
