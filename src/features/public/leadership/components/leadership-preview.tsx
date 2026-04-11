@@ -100,7 +100,6 @@ export function LeadershipPreview({ leaders }: LeadershipPreviewProps) {
       <div className="relative">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="section-label">Public Preview</p>
             <h3 className="mt-2 type-h2 text-ink-900">Organizational Chart</h3>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700">
               A quick view of the current public leadership structure, centered around the active
@@ -129,7 +128,7 @@ export function LeadershipPreview({ leaders }: LeadershipPreviewProps) {
                 ) : null}
 
                 {rowIndex === 0 && primaryAdviser ? (
-                  <div className="mb-6 mx-auto max-w-sm">
+                  <div className="mb-6 mx-auto max-w-[20rem]">
                     <LeadershipNode
                       key={`${primaryAdviser.id}-${primaryAdviser.role}-adviser`}
                       leader={primaryAdviser}
