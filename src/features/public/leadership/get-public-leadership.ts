@@ -1,4 +1,5 @@
 import { getPublicSiteContent } from "@/lib/api/supabase-content-server"
+import { compareLeadershipOrder } from "./leadership-utils"
 import type { PublicLeaderProfile } from "./leadership-types"
 
 function readString(value: unknown) {
@@ -9,6 +10,10 @@ function readRecord(value: unknown) {
   return value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : null
+}
+
+function readNumber(value: unknown) {
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined
 }
 
 function formatLabel(value: string) {
@@ -28,16 +33,21 @@ function mapOfficerToLeaderProfile(officer: Record<string, unknown>): PublicLead
   }
 
   const position = readRecord(officer.position)
-  const positionSlug = readString(position?.slug)
+  const positionSlug =
+    readString(officer.officer_position_slug) || readString(position?.slug) || undefined
 
   return {
     id,
     name: `${firstName} ${lastName}`,
     role: readString(officer.position_name) || "Officer",
+    roleSlug: positionSlug,
     specialization: positionSlug ? formatLabel(positionSlug) : undefined,
     status: positionSlug?.includes("lead") ? "lead" : "officer",
     avatarUrl: readString(officer.photo_url) || undefined,
     profileUrl: readString(officer.profile_url) || undefined,
+    sortOrder: readNumber(officer.sort_order),
+    positionSortOrder:
+      readNumber(officer.officer_position_sort_order) || readNumber(position?.sort_order),
   }
 }
 
@@ -60,9 +70,6 @@ export async function getPublicLeadershipData() {
 
   return {
     currentSchoolYear,
-    leaders: [...leaders].sort((left, right) => {
-      const statusOrder = { officer: 0, lead: 1, active: 2, inactive: 3 } as const
-      return statusOrder[left.status] - statusOrder[right.status] || left.name.localeCompare(right.name)
-    }),
+    leaders: [...leaders].sort(compareLeadershipOrder),
   }
 }

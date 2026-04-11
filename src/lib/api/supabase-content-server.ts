@@ -443,9 +443,9 @@ export async function getPublicSiteContent() {
     currentSchoolYearId
       ? fetchPublicCollection(
           "current_active_officers",
-          "id,school_year_id,school_year_label,school_year_is_current,officer_position_id,officer_position_name,officer_position_slug,custom_position_name,public_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
+          "id,school_year_id,school_year_label,school_year_is_current,officer_position_id,officer_position_name,officer_position_slug,officer_position_sort_order,custom_position_name,public_position_name,first_name,last_name,slug,bio,photo_url,profile_url,email,phone_number,sort_order,is_active,created_at,updated_at",
           [],
-          "sort_order.asc,last_name.asc,first_name.asc"
+          "officer_position_sort_order.asc.nullslast,sort_order.asc,last_name.asc,first_name.asc"
         )
       : fetchPublicCollection(
           "officers",
