@@ -78,6 +78,7 @@ export function ProgramsManagementPage() {
     switchMediaMode,
     submitForm,
     deleteProgram,
+    handleUploadError,
   } = useProgramsManagement()
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -286,15 +287,16 @@ export function ProgramsManagementPage() {
                   <MediaUploadField
                     label={mediaMode === "thumbnail" ? "Program thumbnail" : "Program video"}
                     value={visibleMediaValue}
-                    accept={mediaMode === "thumbnail" ? "image/*" : "video/*"}
+                    accept={mediaMode === "thumbnail" ? "image/*" : "video/mp4,video/webm,video/ogg"}
                     kind={mediaMode === "thumbnail" ? "image" : "video"}
                     previewAlt={formValues.title || "Program media"}
                     onChange={updateMediaValue}
+                    onError={handleUploadError}
                     disabled={isSubmitting}
                     description={
                       mediaMode === "thumbnail"
-                        ? "Upload a cover image for cards and previews."
-                        : "Upload a short program video when you want motion instead of a static image."
+                        ? "Upload a cover image for cards and previews. Recommended: 800×600px or larger, under 2MB."
+                        : "Upload a short program video (under 30 seconds). Recommended: 1920×1080px or smaller, under 10MB. Use MP4 format for best compatibility."
                     }
                   />
                   {fieldErrors.thumbnail_url || fieldErrors.video_url ? (

@@ -17,6 +17,7 @@ type MediaUploadFieldProps = {
   description?: string
   onChange: (value: string) => void
   className?: string
+  onError?: (error: string) => void
 }
 
 async function readFileAsDataUrl(file: File) {
@@ -38,6 +39,7 @@ export function MediaUploadField({
   description,
   onChange,
   className,
+  onError,
 }: MediaUploadFieldProps) {
   const inputId = useId()
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -48,12 +50,81 @@ export function MediaUploadField({
     [kind]
   )
 
+  async function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image()
+      img.onerror = () => reject(new Error("Unable to load image"))
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  async function getVideoDimensions(file: File): Promise<{ width: number; height: number; duration: number }> {
+    return new Promise((resolve, reject) => {
+      const video = document.createElement("video")
+      video.onloadedmetadata = () => {
+        resolve({ width: video.videoWidth, height: video.videoHeight, duration: video.duration })
+        URL.revokeObjectURL(video.src)
+      }
+      video.onerror = () => reject(new Error("Unable to load video"))
+      video.src = URL.createObjectURL(file)
+    })
+  }
+
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const nextFile = event.target.files?.[0]
 
     if (!nextFile) {
       onChange("")
       return
+    }
+
+    // File size validation
+    const maxSize = kind === "image" ? 2 * 1024 * 1024 : 10 * 1024 * 1024 // 2MB for images, 10MB for videos
+    if (nextFile.size > maxSize) {
+      const sizeLimit = kind === "image" ? "2MB" : "10MB"
+      onError?.(`File too large. Please use a file smaller than ${sizeLimit} for optimal web performance.`)
+      event.target.value = ""
+      return
+    }
+
+    // Validate video formats
+    if (kind === "video") {
+      const supportedFormats = ["video/mp4", "video/webm", "video/ogg"]
+      if (!supportedFormats.includes(nextFile.type)) {
+        onError?.("Unsupported video format. Please use MP4, WebM, or OGG files for web compatibility.")
+        event.target.value = ""
+        return
+      }
+
+      // Video duration check
+      try {
+        const { duration } = await getVideoDimensions(nextFile)
+        if (duration > 30) {
+          onError?.("Video too long. Please use videos under 30 seconds for better user experience on the public site.")
+          event.target.value = ""
+          return
+        }
+      } catch {
+        onError?.("Unable to read video properties. Please try a different file.")
+        event.target.value = ""
+        return
+      }
+    }
+
+    // Image dimension validation
+    if (kind === "image") {
+      try {
+        const { width, height } = await getImageDimensions(nextFile)
+        if (width < 400 || height < 300) {
+          onError?.("Image too small. Please use images at least 400×300px for clear display on the public site.")
+          event.target.value = ""
+          return
+        }
+      } catch {
+        onError?.("Unable to read image properties. Please try a different file.")
+        event.target.value = ""
+        return
+      }
     }
 
     const nextValue = await readFileAsDataUrl(nextFile)
@@ -74,7 +145,7 @@ export function MediaUploadField({
       <Label htmlFor={inputId}>{label}</Label>
 
       <div className="rounded-2xl border border-primary/10 bg-muted/20 p-4">
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_14rem]">
+        <div className="grid gap-4">
           <div className="space-y-3">
             <input
               id={inputId}
@@ -144,8 +215,13 @@ export function MediaUploadField({
                     <Image src={value} alt={previewAlt} fill unoptimized className="object-cover" />
                   </div>
                 ) : (
-                  <video controls className="aspect-[4/3] h-full w-full bg-black object-cover">
-                    <source src={value} />
+                  <video 
+                    controls 
+                    preload="metadata" 
+                    className="aspect-[4/3] h-full w-full bg-black object-cover"
+                    src={value}
+                  >
+                    Your browser does not support the video tag.
                   </video>
                 )
               ) : (

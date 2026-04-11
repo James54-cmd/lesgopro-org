@@ -291,6 +291,10 @@ export function useProgramsManagement() {
     }
   }
 
+  const handleUploadError = useCallback((error: string) => {
+    setErrorMessage(error)
+  }, [])
+
   return {
     programs,
     isLoading,
@@ -309,5 +313,6 @@ export function useProgramsManagement() {
     switchMediaMode,
     submitForm,
     deleteProgram,
+    handleUploadError,
   }
 }
