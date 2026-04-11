@@ -251,7 +251,6 @@ function validatePrograms(payload: Record<string, unknown>): AdminContentValidat
   const description = readTrimmedString(payload.description)
   const thumbnailUrl = readOptionalUrl(payload.thumbnail_url)
   const videoUrl = readOptionalUrl(payload.video_url)
-  const ctaUrl = readOptionalUrl(payload.cta_url)
   const sortOrder = readOptionalInteger(payload.sort_order)
   const isPublished = readBoolean(payload.is_published)
 
@@ -276,10 +275,6 @@ function validatePrograms(payload: Record<string, unknown>): AdminContentValidat
     fieldErrors.video_url = "Upload a thumbnail image or a program video."
   }
 
-  if (payload.cta_url && !ctaUrl) {
-    fieldErrors.cta_url = "Use a valid CTA URL."
-  }
-
   if (sortOrder === null || sortOrder < 1) {
     fieldErrors.sort_order = "Sort order must be 1 or higher."
   }
@@ -301,7 +296,6 @@ function validatePrograms(payload: Record<string, unknown>): AdminContentValidat
       description: description || null,
       thumbnail_url: thumbnailUrl,
       video_url: videoUrl,
-      cta_url: ctaUrl,
       sort_order: sortOrder,
       is_published: isPublished,
     },

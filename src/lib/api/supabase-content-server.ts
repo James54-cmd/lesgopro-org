@@ -124,7 +124,7 @@ const contentResourceConfigs: Record<ContentResourceName, ContentResourceConfig>
   programs: {
     table: "programs",
     select:
-      "id,title,slug,description,thumbnail_url,video_url,cta_url,sort_order,is_published,created_at,updated_at",
+      "id,title,slug,description,thumbnail_url,video_url,sort_order,is_published,created_at,updated_at",
     order: "sort_order.asc,title.asc",
     allowedFields: [
       "title",
@@ -132,7 +132,6 @@ const contentResourceConfigs: Record<ContentResourceName, ContentResourceConfig>
       "description",
       "thumbnail_url",
       "video_url",
-      "cta_url",
       "sort_order",
       "is_published",
     ],
@@ -501,7 +500,7 @@ export async function getPublicSiteContent() {
         ),
     fetchPublicCollection(
       "programs",
-      "id,title,slug,description,thumbnail_url,video_url,cta_url,sort_order,is_published,created_at,updated_at",
+      "id,title,slug,description,thumbnail_url,video_url,sort_order,is_published,created_at,updated_at",
       [["is_published", "eq.true"]],
       "sort_order.asc,title.asc"
     ),

@@ -148,7 +148,6 @@ export const managementResourceDefinitions: ManagementResourceDefinition[] = [
     columns: [
       { key: "title", label: "Title" },
       { key: "slug", label: "Slug" },
-      { key: "cta_url", label: "CTA URL" },
       { key: "is_published", label: "Published" },
     ],
     fields: [
@@ -157,7 +156,6 @@ export const managementResourceDefinitions: ManagementResourceDefinition[] = [
       { name: "description", label: "Description", type: "textarea" },
       { name: "thumbnail_url", label: "Thumbnail URL", type: "url" },
       { name: "video_url", label: "Video URL", type: "url" },
-      { name: "cta_url", label: "CTA URL", type: "url" },
       { name: "sort_order", label: "Sort order", type: "number" },
       { name: "is_published", label: "Published", type: "checkbox" },
     ],
