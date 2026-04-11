@@ -31,10 +31,18 @@ function LeadershipNode({
           size={tone === "head" ? "lg" : tone === "branch" ? "md" : "sm"}
         />
         <div className={tone === "head" ? "mt-4" : "min-w-0"}>
-          <p className={tone === "head" ? "type-h3 text-ink-900" : "text-sm font-semibold text-ink-900"}>
+          <p
+            className={
+              tone === "head"
+                ? "type-h3 text-primary"
+                : "text-sm font-semibold uppercase tracking-[0.08em] text-primary"
+            }
+          >
+            {leader.role}
+          </p>
+          <p className={tone === "head" ? "mt-2 text-sm font-medium text-ink-700" : "mt-1 text-sm text-ink-600"}>
             {leader.name}
           </p>
-          <p className="mt-1 text-sm text-ink-600">{leader.role}</p>
           {leader.specialization ? (
             <p className="mt-1 text-xs uppercase tracking-[0.14em] text-secondary-dark">
               {leader.specialization}

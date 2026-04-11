@@ -35,13 +35,18 @@ function mapOfficerToLeaderProfile(officer: Record<string, unknown>): PublicLead
   const position = readRecord(officer.position)
   const positionSlug =
     readString(officer.officer_position_slug) || readString(position?.slug) || undefined
+  const role = readString(officer.position_name) || "Officer"
+  const specializationLabel = positionSlug ? formatLabel(positionSlug) : undefined
 
   return {
     id,
     name: `${firstName} ${lastName}`,
-    role: readString(officer.position_name) || "Officer",
+    role,
     roleSlug: positionSlug,
-    specialization: positionSlug ? formatLabel(positionSlug) : undefined,
+    specialization:
+      specializationLabel && specializationLabel.toLowerCase() !== role.toLowerCase()
+        ? specializationLabel
+        : undefined,
     status: positionSlug?.includes("lead") ? "lead" : "officer",
     avatarUrl: readString(officer.photo_url) || undefined,
     profileUrl: readString(officer.profile_url) || undefined,
