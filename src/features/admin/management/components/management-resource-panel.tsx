@@ -5,6 +5,7 @@ import { Pencil, Plus, RefreshCcw, Trash2 } from "lucide-react"
 import { StatusBadge } from "@/components/app/status-badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -223,14 +224,12 @@ export function ManagementResourcePanel({ definition }: ManagementResourcePanelP
                     </Select>
                   ) : field.type === "checkbox" ? (
                     <label className="flex items-center gap-3 rounded-xl border border-primary/10 bg-white px-3 py-3 text-sm text-ink-800">
-                      <input
+                      <Checkbox
                         id={`${definition.name}-${field.name}`}
-                        type="checkbox"
                         checked={Boolean(fieldValue)}
-                        onChange={(event) => updateField(field.name, event.target.checked)}
+                        onCheckedChange={(checked) => updateField(field.name, checked === true)}
                         disabled={isSubmitting}
                         aria-invalid={Boolean(fieldErrors[field.name])}
-                        className="h-4 w-4 rounded border-border text-primary focus:ring-primary/15"
                       />
                       <span>{field.label}</span>
                     </label>

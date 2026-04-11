@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowUpRight, Filter, Pencil, RefreshCcw, ShieldCheck, Trash
 import { StatusBadge } from "@/components/app/status-badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { ImageUploadField } from "@/components/ui/image-upload-field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -531,12 +532,10 @@ export function OfficersManagementPage() {
               </div>
 
               <label className="flex items-center gap-3 rounded-xl border border-primary/10 bg-muted/20 px-4 py-3 text-sm text-ink-800">
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={formValues.is_active}
-                  onChange={(event) => updateField("is_active", event.target.checked)}
+                  onCheckedChange={(checked) => updateField("is_active", checked === true)}
                   disabled={isSubmitting}
-                  className="h-4 w-4 rounded border-border text-primary focus:ring-primary/15"
                   aria-invalid={Boolean(fieldErrors.is_active)}
                 />
                 <span>Officer is active and can appear on the public site</span>
